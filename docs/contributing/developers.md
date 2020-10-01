@@ -1,12 +1,12 @@
 ---
 layout: default
-title: Contributors
+title: Developers
 nav_order: 1
 has_children: false
 parent: Contributing
 has_toc: false
 ---
-# Contributors
+# Developers
 
 <!-- readme: collaborators,contributors -start --> 
 <table>

@@ -12,10 +12,10 @@ If contributing with code, please leave the pedantic mode ON (` -DBUILD_WITH_PED
 
 Example: CLion
     
-![CLion Settings with Pedantic Mode](.././docs/images/pedantic_clion.png)
+![CLion Settings with Pedantic Mode](images/pedantic_clion.png)
     
 
 
 
 
-- [Contributors](contributing/contributors.md)
+- [Developers](contributing/developers.md)

@@ -14,7 +14,7 @@ Just run
 mdsplit
 ```
 
-from your project root directory. MdSplit will split your README.md file into smaller files. The results will go to the documentation directory.
+from your project root directory. `mdsplit` will split your `README.md` file into smaller files. The results will go to the documentation directory.
 
 
 
