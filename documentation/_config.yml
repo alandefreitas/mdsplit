@@ -1,5 +1,5 @@
-#remote_theme: pmarsceill/just-the-docs
-theme: "just-the-docs"
+remote_theme: pmarsceill/just-the-docs
+#theme: "just-the-docs"
 title: "MdSplit"
 description: "A Tool to Split Bulky Markdown Files"
 
