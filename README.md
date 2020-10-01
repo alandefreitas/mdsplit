@@ -13,7 +13,7 @@
   - [GitHub Pages](#github-pages)
   - [Test Locally](#test-locally)
 - [Contributing](#contributing)
-  - [Contributors](#contributors)
+  - [Developers](#developers)
 
 </details>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
