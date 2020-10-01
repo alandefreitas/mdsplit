@@ -1,9 +1,8 @@
 ---
 layout: default
 title: Developers
-nav_order: 1
+nav_order: 8
 has_children: false
-parent: Contributing
 has_toc: false
 ---
 # Developers
@@ -22,3 +21,7 @@ has_toc: false
 <!-- readme: collaborators,contributors -end -->
 
 
+
+
+
+<!-- Generated with mdsplit: https://github.com/alandefreitas/mdsplit -->

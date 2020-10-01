@@ -1,12 +1,12 @@
 ---
 layout: default
-title: Splitting README.md
+title: Splitting your README.md
 nav_order: 1
 has_children: false
-parent: Running mdsplit
+parent: Examples
 has_toc: false
 ---
-# Splitting README.md
+# Splitting your README.md
 
 Just run 
 
@@ -18,3 +18,6 @@ from your project root directory. `mdsplit` will split your `README.md` file int
 
 
 
+
+
+<!-- Generated with mdsplit: https://github.com/alandefreitas/mdsplit -->

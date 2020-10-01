@@ -3,12 +3,12 @@ layout: default
 title: GitHub Pages
 nav_order: 2
 has_children: false
-parent: Running mdsplit
+parent: Examples
 has_toc: false
 ---
 # GitHub Pages
 
-To use the new .md files with GitHub Pages:
+To use the new `.md` files with GitHub Pages to create the documentation:
 
 * Go to settings and turn on GitHub Pages
 * Set `./docs` as your root directory
@@ -20,3 +20,6 @@ To use the new .md files with GitHub Pages:
 
 
 
+
+
+<!-- Generated with mdsplit: https://github.com/alandefreitas/mdsplit -->

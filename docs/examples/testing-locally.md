@@ -1,12 +1,12 @@
 ---
 layout: default
-title: Test Locally
-nav_order: 3
+title: Testing Locally
+nav_order: 4
 has_children: false
-parent: Running mdsplit
+parent: Examples
 has_toc: false
 ---
-# Test Locally
+# Testing Locally
 
 To test the GitHub Pages locally, see the example of a Jekyll configuration file in `docs/_config.yml`.
  
@@ -19,3 +19,6 @@ To test the GitHub Pages locally, see the example of a Jekyll configuration file
 
 
 
+
+
+<!-- Generated with mdsplit: https://github.com/alandefreitas/mdsplit -->
