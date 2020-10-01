@@ -10,7 +10,7 @@ target_link_libraries(mdsplit PRIVATE mdsplitlib)
 if(BUILD_INSTALLER)
     # Install the executable only
     install(TARGETS mdsplit
-            EXPORT MdSplitTargets
+            EXPORT mdsplitTargets
             LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
             ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
             )

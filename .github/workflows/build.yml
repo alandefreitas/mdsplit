@@ -1,4 +1,4 @@
-name: Build MdSplit
+name: Build mdsplit
 
 on: 
   push:
@@ -88,8 +88,8 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: Binary Packages ${{ matrix.config.artifact_name }}
-          path: build/MdSplit-?.?.?-*.*
+          path: build/mdsplit-?.?.?-*.*
       - name: Archive Installer Packages as is
         uses: kittaakos/upload-artifact-as-is@v0
         with:
-          path: build/MdSplit-?.?.?-*.*
+          path: build/mdsplit-?.?.?-*.*

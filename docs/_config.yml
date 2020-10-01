@@ -6,7 +6,7 @@ description: "A Tool to Split Bulky Markdown Files"
 search_enabled: true
 
 aux_links:
-  "MdSplit on GitHub":
+  "mdsplit on GitHub":
     - "//github.com/alandefreitas/mdsplit"
 
 footer_content: "Copyright &copy; Alan Freitas. Distributed by an <a href=\"https://github.com/alandefreitas/mdsplit/tree/master/LICENSE.txt\">MIT license.</a>"
