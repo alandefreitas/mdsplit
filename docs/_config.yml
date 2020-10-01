@@ -1,9 +1,9 @@
 remote_theme: pmarsceill/just-the-docs
 #theme: "just-the-docs"
-title: "MdSplit"
+title: "mdsplit"
 description: "A Tool to Split Bulky Markdown Files"
 
-search_enabled: false
+search_enabled: true
 
 aux_links:
   "MdSplit on GitHub":
