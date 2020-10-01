@@ -1,5 +1,5 @@
 #######################################################
-### MdSplit                                         ###
+### mdsplit                                         ###
 #######################################################
 # Project information
 cmake_minimum_required(VERSION 3.17)
@@ -46,7 +46,7 @@ if (BUILD_INSTALLER AND BUILD_PACKAGE)
     # https://cliutils.gitlab.io/modern-cmake/chapters/install/packaging.html
 
     # The most common cpack variables
-    set(CPACK_PACKAGE_NAME "MdSplit")
+    set(CPACK_PACKAGE_NAME "mdsplit")
     set(CPACK_PACKAGE_VENDOR "https://github.com/alandefreitas")
     set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "A Tool to Split Bulky Markdown Files")
     set(CPACK_PACKAGE_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
