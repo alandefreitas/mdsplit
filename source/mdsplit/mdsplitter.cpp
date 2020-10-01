@@ -10,14 +10,23 @@ namespace mdsplit {
 
     int mdsplitter::run() {
         fs::create_directory(output_dir_);
+        std::cout << "# Find Sections" << std::endl;
         find_sections();
+        std::cout << "\n# Remove Auto TOC" << std::endl;
         remove_auto_toc();
+        std::cout << "\n# Remove HTML Tags" << std::endl;
         remove_html_tags();
+        std::cout << "\n# Update Links" << std::endl;
         update_links();
+        std::cout << "\n# Create Subsection links" << std::endl;
         create_subsection_links();
+        std::cout << "\n# Escape Jekyll" << std::endl;
         escape_jekyll();
+        std::cout << "\n# Reindent Headers" << std::endl;
         reindent_headers();
+        std::cout << "\n# Add Front Matter" << std::endl;
         add_front_matter();
+        std::cout << "\n# Save Sections" << std::endl;
         save_sections();
         return 0;
     }
@@ -120,6 +129,7 @@ namespace mdsplit {
     void mdsplitter::save_sections() {
         for (const auto &section : sections_) {
             std::ofstream fout(section.filepath);
+            std::cout << "Saving " << section.filepath << "(Section: " << section.header_name << ")" << std::endl;
             for (const auto &line : section.lines) {
                 fout << line << std::endl;
             }
@@ -157,6 +167,7 @@ namespace mdsplit {
                 }
             }
             if (toc_line_it != line_it_end && toc_line_it_end != line_it_end) {
+                std::cout << "Found Auto TOC in " << section.header_name << std::endl;
                 section.lines.erase(toc_line_it, std::next(toc_line_it_end));
             }
         }
@@ -180,6 +191,7 @@ namespace mdsplit {
                     std::smatch match;
                     while (std::regex_search(line, match,
                                              complete_html_tag_regex)) {
+                        std::cout << match[0] << "->" << match[2] << std::endl;
                         line.replace(match.position(0), match[0].length(),
                                      match[2]);
                         // Removing tags might leave a lot of white space in the
@@ -188,6 +200,7 @@ namespace mdsplit {
                         line.erase(0, line.find_first_not_of(" \t"));
                     }
                     while (std::regex_search(line, match, html_tag_regex)) {
+                        std::cout << match[0] << "-> <empty>" << std::endl;
                         line.erase(match.position(0), match[0].length());
                     }
                 }
@@ -240,9 +253,6 @@ namespace mdsplit {
                     } else {
                         std::cout << url << "-> <external>" << std::endl;
                     }
-                    // std::cout << "complete match: " << match[0] << std::endl;
-                    // std::cout << "text match: " << match[1] << std::endl;
-                    // std::cout << "url match: " << match[2] << std::endl;
                     line_copy.replace(match.position(0), match[0].length(),"");
                 }
             }
@@ -276,9 +286,9 @@ namespace mdsplit {
             for (auto &line : section.lines) {
                 size_t pos = line.find("{{");
                 while (pos != std::string::npos) {
-                    // std::cout << line << std::endl;
+                    std::cout << line << "->";
                     line.replace(pos, 2, "{ {");
-                    // std::cout << line << std::endl;
+                    std::cout << line << std::endl;
                     pos = line.find("{{", pos + 3);
                 }
             }
@@ -343,6 +353,12 @@ namespace mdsplit {
             }
             front_matter.emplace_back("has_toc: false");
             front_matter.emplace_back("---");
+
+            std::cout << section.filepath.c_str() << std::endl;
+            for (const auto &l : front_matter) {
+                std::cout << l << std::endl;
+            }
+
             section.lines.insert(section.lines.begin(), front_matter.begin(), front_matter.end());
         }
     }

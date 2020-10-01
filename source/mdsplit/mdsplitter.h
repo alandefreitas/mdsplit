@@ -59,7 +59,7 @@ namespace mdsplit {
 
       private /* options */:
         fs::path input_ = "README.md";
-        fs::path output_dir_ = fs::current_path() / "documentation";
+        fs::path output_dir_ = fs::current_path() / "docs";
         std::vector<std::string> clear_html_tags_{"details", "summary"};
       private /* processing */:
         fs::path current_output_file_ = output_dir_ / "index.md";

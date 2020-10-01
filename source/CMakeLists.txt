@@ -17,7 +17,6 @@ add_library(mdsplitlib
         mdsplit/mdsplitter.h
         mdsplit/mdsplitter.cpp
         mdsplit/mdsection.h
-        mdsplit/mdsection.cpp
 )
 
 target_link_libraries(mdsplitlib PUBLIC std::filesystem)
