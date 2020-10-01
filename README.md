@@ -5,6 +5,17 @@ MdSplit is a tool to split a bulky markdown file into smaller files. The main pu
 <!-- https://gist.github.com/jbroadway/2836900 -->
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+<details>
+<summary>Table of Contents</summary>
+
+- [Running mdsplit](#running-mdsplit)
+  - [Splitting README.md](#splitting-readmemd)
+  - [GitHub Pages](#github-pages)
+  - [Test Locally](#test-locally)
+- [Contributing](#contributing)
+  - [Contributors](#contributors)
+
+</details>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Running mdsplit
