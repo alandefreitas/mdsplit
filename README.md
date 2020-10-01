@@ -24,21 +24,21 @@ from your project root directory. MdSplit will split your README.md file into sm
 To use the new .md files with GitHub Pages:
 
 * Go to settings and turn on GitHub Pages
-* Set `./documentation` as your root directory
-* Run `mdsplit` on your root directory to save the files in `./documentation`
-* Go to [`documentation/_config.yml`](documentation/_config.yml):
+* Set `./docs` as your root directory
+* Run `mdsplit` on your root directory to save the files in `./docs`
+* Go to [`docs/_config.yml`](docs/_config.yml):
     * Uncomment `#remote_theme: pmarsceill/just-the-docs`
     * Comment `theme: "just-the-docs"`
-    * Adapt [`documentation/_config.yml`](documentation/_config.yml) as needed
+    * Adapt [`docs/_config.yml`](docs/_config.yml) as needed
 
 ### Test Locally
 
-To test the GitHub Pages locally, see the example of a Jekyll configuration file in [`documentation/_config.yml`](documentation/_config.yml).
+To test the GitHub Pages locally, see the example of a Jekyll configuration file in [`docs/_config.yml`](docs/_config.yml).
  
  * Install Jekyll and Bundle.
- * Add `gem "github-pages", group: :jekyll_plugins` to you Gemfile (see [`documentation/Gemfile`](documentation/Gemfile))
- * Add `gem "just-the-docs"` to you Gemfile (see [`documentation/Gemfile`](documentation/Gemfile))
- * Adapt [`documentation/_config.yml`](documentation/_config.yml) as needed
+ * Add `gem "github-pages", group: :jekyll_plugins` to you Gemfile (see [`docs/Gemfile`](docs/Gemfile))
+ * Add `gem "just-the-docs"` to you Gemfile (see [`docs/Gemfile`](docs/Gemfile))
+ * Adapt [`docs/_config.yml`](docs/_config.yml) as needed
  * Run `bundle install` or `bundle update`
  * Run the jekyll server: `bundle exec jekyll serve --trace --incremental`
 
@@ -49,7 +49,7 @@ If contributing with code, please leave the pedantic mode ON (` -DBUILD_WITH_PED
 <details markdown="1">
     <summary>Example: CLion</summary>
     
-![CLion Settings with Pedantic Mode](./documentation/images/pedantic_clion.png)
+![CLion Settings with Pedantic Mode](./docs/images/pedantic_clion.png)
     
 </details>
 
