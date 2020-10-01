@@ -12,13 +12,15 @@ include(GNUInstallDirs)
 
 # Cmake scripts
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+option(CPM_USE_LOCAL_PACKAGES "Try `find_package` before downloading dependencies" ON)
+include(cmake/CPM.cmake)
 
 # Check if this a master project or a subdirectory of another project
 if (${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_SOURCE_DIR})
     set(MASTER_PROJECT ON)
-else()
+else ()
     set(MASTER_PROJECT OFF)
-endif()
+endif ()
 set(MDSPLIT_ROOT_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
 #######################################################
