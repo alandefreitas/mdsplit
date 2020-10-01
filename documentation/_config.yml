@@ -1,0 +1,12 @@
+#remote_theme: pmarsceill/just-the-docs
+theme: "just-the-docs"
+title: "MdSplit"
+description: "A Tool to Split Bulky Markdown Files"
+
+search_enabled: false
+
+aux_links:
+  "MdSplit on GitHub":
+    - "//github.com/alandefreitas/mdsplit"
+
+footer_content: "Copyright &copy; Alan Freitas. Distributed by an <a href=\"https://github.com/alandefreitas/mdsplit/tree/master/LICENSE.txt\">MIT license.</a>"
