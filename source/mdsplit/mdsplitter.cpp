@@ -10,22 +10,31 @@ namespace mdsplit {
 
     int mdsplitter::run() {
         fs::create_directory(output_dir_);
+
         std::cout << "# Find Sections" << std::endl;
         find_sections();
+
         std::cout << "\n# Remove Auto TOC" << std::endl;
         remove_auto_toc();
+
         std::cout << "\n# Remove HTML Tags" << std::endl;
         remove_html_tags();
+
         std::cout << "\n# Update Links" << std::endl;
         update_links();
+
         std::cout << "\n# Create Subsection links" << std::endl;
         create_subsection_links();
+
         std::cout << "\n# Escape Jekyll" << std::endl;
         escape_jekyll();
+
         std::cout << "\n# Reindent Headers" << std::endl;
         reindent_headers();
+
         std::cout << "\n# Add Front Matter" << std::endl;
         add_front_matter();
+
         std::cout << "\n# Save Sections" << std::endl;
         save_sections();
         return 0;
@@ -222,8 +231,11 @@ namespace mdsplit {
                     continue;
                 }
                 std::smatch match;
-                auto line_copy = line;
-                while (std::regex_search(line_copy, match, url_or_img_regex)) {
+                auto line_begin = line.cbegin();
+                auto line_end = line.cend();
+                size_t replacement_size = 0;
+                while (std::regex_search(line_begin, line_end, match, url_or_img_regex)) {
+                    size_t line_begin_pos = line_begin - line.cbegin();
                     std::string url = match[2];
                     bool is_http = url.rfind("http://", 0) == 0;
                     bool is_https = url.rfind("https://", 0) == 0;
@@ -235,7 +247,9 @@ namespace mdsplit {
                             fs::path absolute_from = fs::current_path() / input_.parent_path() / url;
                             fs::path relative_to = absolute_from.lexically_relative(section.filepath.parent_path());
                             std::cout << url << "->" << relative_to.c_str() << std::endl;
-                            line.replace(match.position(2), match[2].length(), relative_to.c_str());
+                            size_t pos = std::distance(line.cbegin(), line_begin) + match.position(2);
+                            line.replace(pos, match[2].length(), relative_to.string());
+                            replacement_size = relative_to.string().size();
                         } else {
                             std::string header_slug = url.substr(1);
                             auto it = std::find_if(sections_.begin(), sections_.end(), [&](const mdsection& s){
@@ -245,15 +259,84 @@ namespace mdsplit {
                                 fs::path absolute_destination = fs::current_path() / input_.parent_path() / it->filepath;
                                 fs::path relative_to = absolute_destination.lexically_relative(section.filepath.parent_path());
                                 std::cout << url << "->" << relative_to.c_str() << std::endl;
-                                line.replace(match.position(2), match[2].length(), relative_to.c_str());
+                                size_t pos = std::distance(line.cbegin(), line_begin) + match.position(2);
+                                line.replace(pos, match[2].length(), relative_to.string());
+                                replacement_size = relative_to.string().size();
                             } else {
                                 std::cout << "Cannot find file for a header " << url << " whose slug is " << header_slug << std::endl;
+                                replacement_size = url.size();
                             }
                         }
                     } else {
                         std::cout << url << "-> <external>" << std::endl;
+                        replacement_size = url.size();
                     }
-                    line_copy.replace(match.position(0), match[0].length(),"");
+                    if (replacement_size == 0) {
+                        replacement_size = match[2].length();
+                    }
+                    line_begin = line.cbegin() + line_begin_pos + match.position(2) + replacement_size;
+                    line_end = line.cend();
+                }
+            }
+        }
+
+        // [![example_area_1](docs/examples/line_plot/area/area_1.svg)](examples/line_plot/area/area_1.cpp)
+        std::regex second_order_url_or_img_regex{R"(\[(!?)\[([^\[\]]*)\]\(([^\)]*)\)\]\(([^\)]*)\))"};
+        for (auto &section : sections_) {
+            bool in_codeblock = false;
+            for (auto &line : section.lines) {
+                if (is_codeblock(line)) {
+                    in_codeblock = 1 - in_codeblock;
+                }
+                if (in_codeblock) {
+                    continue;
+                }
+                std::smatch match;
+                auto line_begin = line.cbegin();
+                auto line_end = line.cend();
+                size_t replacement_size = 0;
+                while (std::regex_search(line_begin, line_end, match, second_order_url_or_img_regex)) {
+                    size_t line_begin_pos = line_begin - line.cbegin();
+                    std::string url = match[4];
+                    bool is_http = url.rfind("http://", 0) == 0;
+                    bool is_https = url.rfind("https://", 0) == 0;
+                    bool is_www = url.rfind("www.", 0) == 0;
+                    bool is_external = is_http || is_https || is_www;
+                    if (!is_external) {
+                        bool same_file = url.rfind('#', 0) == 0;
+                        if (!same_file) {
+                            fs::path absolute_from = fs::current_path() / input_.parent_path() / url;
+                            fs::path relative_to = absolute_from.lexically_relative(section.filepath.parent_path());
+                            std::cout << url << "->" << relative_to.c_str() << std::endl;
+                            size_t pos = std::distance(line.cbegin(), line_begin) + match.position(4);
+                            line.replace(pos, match[4].length(), relative_to.string());
+                            replacement_size = relative_to.string().size();
+                        } else {
+                            std::string header_slug = url.substr(1);
+                            auto it = std::find_if(sections_.begin(), sections_.end(), [&](const mdsection& s){
+                                return slugify(s.header_name) == header_slug;
+                            });
+                            if (it != sections_.end()) {
+                                fs::path absolute_destination = fs::current_path() / input_.parent_path() / it->filepath;
+                                fs::path relative_to = absolute_destination.lexically_relative(section.filepath.parent_path());
+                                std::cout << url << "->" << relative_to.c_str() << std::endl;
+                                size_t pos = std::distance(line.cbegin(), line_begin) + match.position(4);
+                                line.replace(pos, match[4].length(), relative_to.string());
+                                replacement_size = relative_to.string().size();
+                            } else {
+                                std::cout << "Cannot find file for a header " << url << " whose slug is " << header_slug << std::endl;
+                                replacement_size = url.size();
+                            }
+                        }
+                    } else {
+                        std::cout << url << "-> <external>" << std::endl;
+                        replacement_size = url.size();
+                    }
+                    if (replacement_size == 0) {
+                        replacement_size = match[4].length();
+                    }
+                    line_begin = line.cbegin() + line_begin_pos + match.position(2) + replacement_size;
+                    line_end = line.cend();
                 }
             }
         }
