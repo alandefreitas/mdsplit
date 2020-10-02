@@ -59,10 +59,10 @@ See the mdsplit [LIVE DEMO](https://alandefreitas.github.io/mdsplit/) and compar
   - [Remove HTML Tags](#remove-html-tags)
   - [Front matter](#front-matter)
   - [Hiding sections from docs](#hiding-sections-from-docs)
+  - [Removing old sections](#removing-old-sections)
 - [Installing](#installing)
   - [Binaries](#binaries)
   - [Install from Source](#install-from-source)
-- [Caveats](#caveats)
 - [Contributing](#contributing)
 - [Developers](#developers)
 
