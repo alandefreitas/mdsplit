@@ -12,45 +12,63 @@ namespace mdsplit {
     int mdsplitter::run() {
         fs::create_directory(output_dir_);
 
-        std::cout << "# Find Sections" << std::endl;
+        if (trace_) {
+            std::cout << "# Find Sections" << std::endl;
+        }
         find_sections();
 
         if (remove_autotoc_) {
-            std::cout << "\n# Remove Auto TOC" << std::endl;
+            if (trace_) {
+                std::cout << "\n# Remove Auto TOC" << std::endl;
+            }
             remove_auto_toc();
         }
 
-        if (clear_html_tags_.empty()) {
-            std::cout << "\n# Remove HTML Tags" << std::endl;
+        if (!clear_html_tags_.empty()) {
+            if (trace_) {
+                std::cout << "\n# Remove HTML Tags" << std::endl;
+            }
             remove_html_tags();
         }
 
         if (update_links_) {
-            std::cout << "\n# Update Links" << std::endl;
+            if (trace_) {
+                std::cout << "\n# Update Links" << std::endl;
+            }
             run_update_links();
         }
 
         if (include_toc_) {
-            std::cout << "\n# Create Subsection links" << std::endl;
+            if (trace_) {
+                std::cout << "\n# Create Subsection links" << std::endl;
+            }
             create_subsection_links();
         }
 
         if (jekyll_escape_) {
-            std::cout << "\n# Escape Jekyll" << std::endl;
+            if (trace_) {
+                std::cout << "\n# Escape Jekyll" << std::endl;
+            }
             escape_jekyll();
         }
 
         if (indent_headers_) {
-            std::cout << "\n# Reindent Headers" << std::endl;
+            if (trace_) {
+                std::cout << "\n# Reindent Headers" << std::endl;
+            }
             reindent_headers();
         }
 
         if (add_front_matter_) {
-            std::cout << "\n# Add Front Matter" << std::endl;
+            if (trace_) {
+                std::cout << "\n# Add Front Matter" << std::endl;
+            }
             run_add_front_matter();
         }
 
-        std::cout << "\n# Save Sections" << std::endl;
+        if (trace_) {
+            std::cout << "\n# Save Sections" << std::endl;
+        }
         save_sections();
 
         list_doc_outsiders();
@@ -76,8 +94,8 @@ namespace mdsplit {
         // # some text
         std::regex header_regex{"(#+) +(.*)"};
 
-        std::regex ignore_begin_regex{R"(<!-- START mdsplit-ignore -->)"};
-        std::regex ignore_end_regex{R"(<!-- END mdsplit-ignore -->)"};
+        std::regex ignore_begin_regex{R"( *<!-- START mdsplit-ignore --> *)"};
+        std::regex ignore_end_regex{R"( *<!-- END mdsplit-ignore --> *)"};
 
         /*
          * # some text
@@ -107,7 +125,8 @@ namespace mdsplit {
                 } else if (std::regex_match(current_line, ignore_end_regex)) {
                     inside_ignoreblock = false;
                     continue;
-                } else if (inside_ignoreblock) {
+                }
+                if (inside_ignoreblock) {
                     continue;
                 }
 
@@ -177,9 +196,11 @@ namespace mdsplit {
     void mdsplitter::save_sections() {
         for (const auto &section : sections_) {
             std::ofstream fout(section.filepath);
-            std::cout << "Saving " << section.filepath
-                      << "(Section: " << section.header_name << ")"
-                      << std::endl;
+            if (trace_) {
+                std::cout << "Saving " << section.filepath
+                          << "(Section: " << section.header_name << ")"
+                          << std::endl;
+            }
             for (const auto &line : section.lines) {
                 fout << line << std::endl;
             }
@@ -192,9 +213,9 @@ namespace mdsplit {
     }
     void mdsplitter::remove_auto_toc() {
         std::regex toc_begin_regex{
-            R"(<!-- START doctoc generated TOC please keep comment here to allow auto update -->)"};
+            R"( *<!-- START doctoc generated TOC please keep comment here to allow auto update --> *)"};
         std::regex toc_end_regex{
-            R"(<!-- END doctoc generated TOC please keep comment here to allow auto update -->)"};
+            R"( *<!-- END doctoc generated TOC please keep comment here to allow auto update --> *)"};
         for (auto &section : sections_) {
             auto line_it = section.lines.begin();
             auto line_it_end = section.lines.end();
@@ -222,16 +243,21 @@ namespace mdsplit {
                 }
             }
             if (toc_line_it != line_it_end && toc_line_it_end != line_it_end) {
-                std::cout << "Found Auto TOC in " << section.header_name
-                          << std::endl;
+                if (trace_) {
+                    std::cout << "Found Auto TOC in " << section.header_name
+                              << std::endl;
+                }
                 section.lines.erase(toc_line_it, std::next(toc_line_it_end));
             }
         }
     }
     void mdsplitter::remove_html_tags() {
         for (const auto &tag : clear_html_tags_) {
-            std::string complete_html_tag_format =
-                "< *" + tag + "( +[^>]*)?>(.*?)</ *" + tag + " *>";
+            std::string complete_html_tag_format = "< *";
+            complete_html_tag_format += tag;
+            complete_html_tag_format += "( +[^>]*)?>(.*?)</ *";
+            complete_html_tag_format += tag;
+            complete_html_tag_format += " *>";
             std::regex complete_html_tag_regex{complete_html_tag_format};
             std::string html_tag_format = "< */? *" + tag + "( +[^>]*)?>";
             std::regex html_tag_regex{html_tag_format};
@@ -247,7 +273,10 @@ namespace mdsplit {
                     std::smatch match;
                     while (std::regex_search(line, match,
                                              complete_html_tag_regex)) {
-                        std::cout << match[0] << "->" << match[2] << std::endl;
+                        if (trace_) {
+                            std::cout << match[0] << "->" << match[2]
+                                      << std::endl;
+                        }
                         line.replace(match.position(0), match[0].length(),
                                      match[2]);
                         // Removing tags might leave a lot of white space in the
@@ -256,7 +285,9 @@ namespace mdsplit {
                         line.erase(0, line.find_first_not_of(" \t"));
                     }
                     while (std::regex_search(line, match, html_tag_regex)) {
-                        std::cout << match[0] << "-> <empty>" << std::endl;
+                        if (trace_) {
+                            std::cout << match[0] << "-> <empty>" << std::endl;
+                        }
                         line.erase(match.position(0), match[0].length());
                     }
                 }
@@ -268,161 +299,105 @@ namespace mdsplit {
         // [some text](URL) -> std::regex{R"([^!]*\[(.*)\]\((.*)\))"};
         // ![some text](URL) -> std::regex{R"(!\[(.*)\]\((.*)\))"};
         std::regex url_or_img_regex{R"(\[([^\[\]]*)\]\(([^\)]*)\))"};
-        for (auto &section : sections_) {
-            bool in_codeblock = false;
-            for (auto &line : section.lines) {
-                if (is_codeblock(line)) {
-                    in_codeblock = 1 - in_codeblock;
-                }
-                if (in_codeblock) {
-                    continue;
-                }
-                std::smatch match;
-                auto line_begin = line.cbegin();
-                auto line_end = line.cend();
-                size_t replacement_size = 0;
-                while (std::regex_search(line_begin, line_end, match,
-                                         url_or_img_regex)) {
-                    size_t line_begin_pos = line_begin - line.cbegin();
-                    std::string url = match[2];
-                    if (!is_external(url)) {
-                        bool same_file = url.rfind('#', 0) == 0;
-                        if (!same_file) {
-                            fs::path relative_url =
-                                relative_path(url, section.filepath);
-                            std::cout << section.filepath.c_str() << ": " << url
-                                      << " -> " << relative_url.c_str()
-                                      << std::endl;
-                            size_t pos =
-                                std::distance(line.cbegin(), line_begin) +
-                                match.position(2);
-                            line.replace(pos, match[2].length(),
-                                         relative_url.string());
-                            replacement_size = relative_url.string().size();
-                        } else {
-                            std::string header_slug = url.substr(1);
-                            auto it = std::find_if(
-                                sections_.begin(), sections_.end(),
-                                [&](const mdsection &s) {
-                                    return slugify(s.header_name) ==
-                                           header_slug;
-                                });
-                            if (it != sections_.end()) {
-                                fs::path absolute_destination =
-                                    fs::current_path() / input_.parent_path() /
-                                    it->filepath;
-                                fs::path relative_to =
-                                    absolute_destination.lexically_relative(
-                                        section.filepath.parent_path());
-                                std::cout << url << "->" << relative_to.c_str()
-                                          << std::endl;
-                                size_t pos =
-                                    std::distance(line.cbegin(), line_begin) +
-                                    match.position(2);
-                                line.replace(pos, match[2].length(),
-                                             relative_to.string());
-                                replacement_size = relative_to.string().size();
-                            } else {
-                                std::cout << "Cannot find file for a header "
-                                          << url << " whose slug is "
-                                          << header_slug << std::endl;
-                                replacement_size = url.size();
-                            }
-                        }
-                    } else {
-                        std::cout << url << " <- (external)" << std::endl;
-                        replacement_size = url.size();
-                    }
-                    if (replacement_size == 0) {
-                        replacement_size = match[2].length();
-                    }
-                    line_begin = line.cbegin() + line_begin_pos +
-                                 match.position(2) + replacement_size;
-                    line_end = line.cend();
-                }
-            }
-        }
-
         // [![example_area_1](docs/examples/line_plot/area/area_1.svg)](examples/line_plot/area/area_1.cpp)
         std::regex second_order_url_or_img_regex{
             R"(\[(!?)\[([^\[\]]*)\]\(([^\)]*)\)\]\(([^\)]*)\))"};
-        for (auto &section : sections_) {
-            bool in_codeblock = false;
-            for (auto &line : section.lines) {
-                if (is_codeblock(line)) {
-                    in_codeblock = 1 - in_codeblock;
-                }
-                if (in_codeblock) {
-                    continue;
-                }
-                std::smatch match;
-                auto line_begin = line.cbegin();
-                auto line_end = line.cend();
-                size_t replacement_size = 0;
-                while (std::regex_search(line_begin, line_end, match,
-                                         second_order_url_or_img_regex)) {
-                    size_t line_begin_pos = line_begin - line.cbegin();
-                    std::string url = match[4];
-                    bool is_http = url.rfind("http://", 0) == 0;
-                    bool is_https = url.rfind("https://", 0) == 0;
-                    bool is_www = url.rfind("www.", 0) == 0;
-                    bool is_external = is_http || is_https || is_www;
-                    if (!is_external) {
-                        bool same_file = url.rfind('#', 0) == 0;
-                        if (!same_file) {
-                            fs::path absolute_from =
-                                fs::current_path() / input_.parent_path() / url;
-                            fs::path relative_to =
-                                absolute_from.lexically_relative(
-                                    section.filepath.parent_path());
-                            std::cout << url << "->" << relative_to.c_str()
-                                      << std::endl;
-                            size_t pos =
-                                std::distance(line.cbegin(), line_begin) +
-                                match.position(4);
-                            line.replace(pos, match[4].length(),
-                                         relative_to.string());
-                            replacement_size = relative_to.string().size();
-                        } else {
-                            std::string header_slug = url.substr(1);
-                            auto it = std::find_if(
-                                sections_.begin(), sections_.end(),
-                                [&](const mdsection &s) {
-                                    return slugify(s.header_name) ==
-                                           header_slug;
-                                });
-                            if (it != sections_.end()) {
-                                fs::path absolute_destination =
-                                    fs::current_path() / input_.parent_path() /
-                                    it->filepath;
-                                fs::path relative_to =
-                                    absolute_destination.lexically_relative(
-                                        section.filepath.parent_path());
-                                std::cout << url << "->" << relative_to.c_str()
-                                          << std::endl;
+        std::vector<std::pair<std::regex, size_t>> url_regexes = {
+            {url_or_img_regex, 2}, {second_order_url_or_img_regex, 4}};
+
+        for (const auto &[url_regex, url_idx] : url_regexes) {
+            for (auto &section : sections_) {
+                bool in_codeblock = false;
+                for (auto &line : section.lines) {
+                    if (is_codeblock(line)) {
+                        in_codeblock = 1 - in_codeblock;
+                    }
+                    if (in_codeblock) {
+                        continue;
+                    }
+                    std::smatch match;
+                    auto line_begin = line.cbegin();
+                    auto line_end = line.cend();
+                    size_t replacement_size = 0;
+                    while (std::regex_search(line_begin, line_end, match,
+                                             url_regex)) {
+                        size_t line_begin_pos = line_begin - line.cbegin();
+                        std::string url = match[url_idx];
+                        if (!is_external(url)) {
+                            bool same_file = url.rfind('#', 0) == 0;
+                            if (!same_file) {
+                                fs::path relative_url =
+                                    relative_path(url, section.filepath);
+                                if (trace_) {
+                                    std::cout << section.filepath.c_str()
+                                              << ": " << url << " -> "
+                                              << relative_url.c_str()
+                                              << std::endl;
+                                }
                                 size_t pos =
                                     std::distance(line.cbegin(), line_begin) +
-                                    match.position(4);
-                                line.replace(pos, match[4].length(),
-                                             relative_to.string());
-                                replacement_size = relative_to.string().size();
+                                    match.position(url_idx);
+                                line.replace(pos, match[url_idx].length(),
+                                             relative_url.string());
+                                replacement_size = relative_url.string().size();
                             } else {
-                                std::cout << "Cannot find file for a header "
-                                          << url << " whose slug is "
-                                          << header_slug << std::endl;
-                                replacement_size = url.size();
+                                std::string header_slug = url.substr(1);
+                                if (header_slug == "axes-object") {
+                                    std::cout << "Here we go" << std::endl;
+                                }
+                                auto it = std::find_if(
+                                    sections_.begin(), sections_.end(),
+                                    [&](const mdsection &s) {
+                                        return slugify(s.header_name) ==
+                                               header_slug;
+                                    });
+                                if (it != sections_.end()) {
+                                    fs::path absolute_destination =
+                                        fs::current_path() / it->filepath;
+                                    fs::path relative_url = relative_path(
+                                        absolute_destination, section.filepath);
+                                    if (trace_) {
+                                        std::cout << url << "->"
+                                                  << relative_url.c_str()
+                                                  << std::endl;
+                                    }
+                                    size_t pos = std::distance(line.cbegin(),
+                                                               line_begin) +
+                                                 match.position(url_idx);
+                                    line.replace(pos, match[url_idx].length(),
+                                                 relative_url.string());
+                                    replacement_size =
+                                        relative_url.string().size();
+                                } else {
+                                    if (trace_) {
+                                        std::cout
+                                            << "Cannot find file for a header "
+                                            << url << " whose slug is "
+                                            << header_slug << std::endl;
+                                    }
+                                    replacement_size = url.size();
+                                }
                             }
+                        } else {
+                            if (trace_) {
+                                std::cout << url << " <- (external)"
+                                          << std::endl;
+                            }
+                            replacement_size = url.size();
                         }
-                    } else {
-                        std::cout << url << " <- (external)" << std::endl;
-                        replacement_size = url.size();
+                        if (replacement_size == 0) {
+                            replacement_size = match[url_idx].length();
+                        }
+                        size_t new_begin_pos = line_begin_pos +
+                                               match.position(url_idx) +
+                                               replacement_size;
+                        if (new_begin_pos < line.size()) {
+                            line_begin = line.cbegin() + new_begin_pos;
+                            line_end = line.cend();
+                        } else {
+                            break;
+                        }
                     }
-                    if (replacement_size == 0) {
-                        replacement_size = match[4].length();
-                    }
-                    line_begin = line.cbegin() + line_begin_pos +
-                                 match.position(2) + replacement_size;
-                    line_end = line.cend();
                 }
             }
         }
@@ -446,9 +421,8 @@ namespace mdsplit {
                     fs::path absolute_destination = fs::current_path() /
                                                     input_.parent_path() /
                                                     subsection.filepath;
-                    fs::path relative_destination =
-                        absolute_destination.lexically_relative(
-                            section.filepath.parent_path());
+                    fs::path relative_destination = fs::relative(
+                        absolute_destination, section.filepath.parent_path());
                     section.lines.emplace_back(
                         padding + "- [" + subsection.header_name + "](" +
                         relative_destination.string() + ")");
@@ -462,9 +436,13 @@ namespace mdsplit {
             for (auto &line : section.lines) {
                 size_t pos = line.find("{{");
                 while (pos != std::string::npos) {
-                    std::cout << line << "->";
+                    if (trace_) {
+                        std::cout << line << "->";
+                    }
                     line.replace(pos, 2, "{ {");
-                    std::cout << line << std::endl;
+                    if (trace_) {
+                        std::cout << line << std::endl;
+                    }
                     pos = line.find("{{", pos + 3);
                 }
             }
@@ -474,7 +452,16 @@ namespace mdsplit {
     void mdsplitter::reindent_headers() {
         std::regex header_regex{"(#+) +(.*)"};
         for (auto &section : sections_) {
+            bool inside_codeblock = false;
             for (auto &line : section.lines) {
+                if (is_codeblock(line)) {
+                    inside_codeblock = 1 - inside_codeblock;
+                }
+
+                if (inside_codeblock) {
+                    continue;
+                }
+
                 std::smatch sm;
                 if (std::regex_match(line, sm, header_regex)) {
                     auto level = static_cast<short>(sm[1].length());
@@ -486,8 +473,7 @@ namespace mdsplit {
                             << std::endl;
                         level_diff = 0;
                     }
-                    line = std::string(level_diff + 1, '#') + " " +
-                           section.header_name;
+                    line = std::string(level_diff + 1, '#') + " " + sm[2].str();
                 }
             }
         }
@@ -501,7 +487,11 @@ namespace mdsplit {
             auto &section = *it;
 
             // we consider level 1 and 2 to be the same
-            short adjusted_level = section.level == 1 ? 1 : section.level - 1;
+            short adjusted_level =
+                section.level == 1
+                    ? static_cast<short>(1)
+                    : static_cast<short>(static_cast<short>(section.level) -
+                                         static_cast<short>(1));
             bool is_new_level = adjusted_level != current_level;
             if (is_new_level) {
                 level_order.resize(adjusted_level, 1);
@@ -544,9 +534,13 @@ namespace mdsplit {
             front_matter.emplace_back("has_toc: false");
             front_matter.emplace_back("---");
 
-            std::cout << section.filepath.c_str() << std::endl;
+            if (trace_) {
+                std::cout << section.filepath.c_str() << std::endl;
+            }
             for (const auto &l : front_matter) {
-                std::cout << l << std::endl;
+                if (trace_) {
+                    std::cout << l << std::endl;
+                }
             }
 
             section.lines.insert(section.lines.begin(), front_matter.begin(),
@@ -639,9 +633,18 @@ namespace mdsplit {
     fs::path mdsplitter::relative_path(const fs::path &path,
                                        const fs::path &base) {
         fs::path base_dir = fs::is_directory(base) ? base : base.parent_path();
-        bool is_in_docs_dir = is_subdirectory(path, base_dir);
+        bool is_in_docs_dir = is_subdirectory(path, output_dir_);
         if (is_in_docs_dir) {
-            return fs::relative(path, base_dir);
+            fs::path r = fs::relative(path, base_dir);
+            std::string ext = r.extension().string();
+            // GitHub does not convert ".md#anchor" links automatically
+            bool is_anchor_inside_docs = ext.rfind(".md#", 0) == 0;
+            if (is_anchor_inside_docs) {
+                ext.replace(0, 4, ".html#");
+                r = r.parent_path() / r.stem();
+                r += ext;
+            }
+            return r;
         } else {
             bool is_in_project_dir = is_subdirectory(path, fs::current_path());
             if (is_in_project_dir) {
@@ -691,15 +694,20 @@ namespace mdsplit {
                     [&](const mdsection &s) { return s.filepath == outsider; });
                 if (it == sections_.end()) {
                     if (first) {
-                        std::cout << "\n# The following .md files were not "
-                                     "generated by mdsplit"
-                                  << std::endl;
-                        std::cout << "# Please make sure that is on purpose:"
-                                  << std::endl;
+                        if (trace_) {
+                            std::cout << "\n# The following .md files were not "
+                                         "generated by mdsplit"
+                                      << std::endl;
+                            std::cout
+                                << "# Please make sure that is on purpose:"
+                                << std::endl;
+                        }
                         first = false;
                     }
-                    std::cout << "Outsider doc file: " << outsider.c_str()
-                              << '\n';
+                    if (trace_) {
+                        std::cout << "Outsider doc file: " << outsider.c_str()
+                                  << '\n';
+                    }
                 }
             }
         }

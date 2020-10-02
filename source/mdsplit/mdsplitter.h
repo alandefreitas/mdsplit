@@ -30,7 +30,7 @@ namespace mdsplit {
 
         /// Identify a codeblock
         /// Most operations need to ignore codeblocks
-        bool is_codeblock(const std::string& str);
+        static bool is_codeblock(const std::string &str);
 
         /// Remove the automatic github actions autotoc
         /// because we are going to include a TOC for
@@ -62,7 +62,7 @@ namespace mdsplit {
 
         bool is_subdirectory(const fs::path &path, const fs::path &base);
 
-        bool is_external(const std::string &url);
+        static bool is_external(const std::string &url);
 
         void list_doc_outsiders();
 
@@ -100,7 +100,7 @@ namespace mdsplit {
         fs::path output_dir_ = fs::current_path() / "docs";
         std::vector<std::string> clear_html_tags_{"details", "summary"};
         std::string repository_;
-        short max_split_level_{3};
+        short max_split_level_{6};
         bool include_toc_{true};
         bool jekyll_escape_{true};
         bool indent_headers_{true};
