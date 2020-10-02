@@ -93,8 +93,10 @@ namespace mdsplit {
         void current_output_file(const fs::path &current_output_file);
         [[nodiscard]] const std::vector<mdsection> &sections() const;
         void sections(const std::vector<mdsection> &sections);
-        bool trace() const;
+        [[nodiscard]] bool trace() const;
         void trace(bool trace);
+        [[nodiscard]] bool erase_old_mdsplit_files() const;
+        void erase_old_mdsplit_files(bool erase_old_mdsplit_files);
       private /* options */:
         fs::path input_ = "README.md";
         fs::path output_dir_ = fs::current_path() / "docs";
@@ -108,6 +110,7 @@ namespace mdsplit {
         bool update_links_{true};
         bool remove_autotoc_{true};
         bool trace_{true};
+        bool erase_old_mdsplit_files_{true};
 
       private /* processing */:
         fs::path current_output_file_ = output_dir_ / "index.md";
