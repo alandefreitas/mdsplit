@@ -13,18 +13,18 @@
 Github is full of mid-sized projects that help us solve specific tasks. Authors tend to document these repositories with beautiful README.md files and some auxiliary documents. `mdsplit` is a tool to automatically split and adjust these bulky markdown files into smaller files. The new files automatically produce documentation compatible with GitHub Pages. It can also be integrated with GitHub Actions to regenerate the documentation whenever your `README.md` file is updated.
 
 <!-- START mdsplit-ignore -->
-<br/><br/>
+<br/>
 
 See the mdsplit [LIVE DEMO](https://alandefreitas.github.io/mdsplit/) and compare it with this very [`README.md`](README.md) file.
 <!-- END mdsplit-ignore -->
 
-<br/><br/>
+<br/>
 
 [![Build Status](https://img.shields.io/github/workflow/status/alandefreitas/mdsplit/Build%20mdsplit?event=push&label=Build&logo=Github-Actions)](https://github.com/alandefreitas/mdsplit/actions?query=workflow%3A%22Build+mdsplit%22+event%3Apush)
 [![Latest Release](https://img.shields.io/github/release/alandefreitas/mdsplit.svg?label=Download)](https://GitHub.com/alandefreitas/mdsplit/releases/)
 [![Documentation](https://img.shields.io/website-up-down-green-red/http/alandefreitas.github.io/mdsplit.svg?label=Documentation)](https://alandefreitas.github.io/mdsplit/)
 
-<br/><br/>
+<br/>
 
 [![Facebook](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Share+on+Facebook&logo=facebook)](https://www.facebook.com/sharer/sharer.php?t=mdsplit:%20split%20a%20bulky%20README.md%20into%20a%20nice%20documentation&u=https://github.com/alandefreitas/mdsplit/)
 [![QZone](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Share+on+QZone&logo=qzone)](http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://github.com/alandefreitas/mdsplit/&title=mdsplit:%20split%20a%20bulky%20README.md%20into%20a%20nice%20documentation&summary=mdsplit:%20split%20a%20bulky%20README.md%20into%20a%20nice%20documentation)
@@ -37,7 +37,7 @@ See the mdsplit [LIVE DEMO](https://alandefreitas.github.io/mdsplit/) and compar
 [![Telegram.me](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Share+on+Telegram.me&logo=telegram)](https://telegram.me/share/url?url=https://github.com/alandefreitas/mdsplit/&text=mdsplit:%20split%20a%20bulky%20README.md%20into%20a%20nice%20documentation)
 [![HackerNews](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Share+on+HackerNews&logo=y-combinator)](https://news.ycombinator.com/submitlink?u=https://github.com/alandefreitas/mdsplit/&t=mdsplit:%20split%20a%20bulky%20README.md%20into%20a%20nice%20documentation)
 
-<br/><br/>
+<br/>
 
 <!-- https://gist.github.com/jbroadway/2836900 -->
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
@@ -68,6 +68,8 @@ See the mdsplit [LIVE DEMO](https://alandefreitas.github.io/mdsplit/) and compar
 
 </details>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+<br/>
 
 ## Gallery
 
