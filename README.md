@@ -29,12 +29,24 @@ See the [LIVE DEMO](https://alandefreitas.github.io/mdsplit/) and compare it wit
 <details>
 <summary>Table of Contents</summary>
 
-- [Running mdsplit](#running-mdsplit)
-  - [Splitting README.md](#splitting-readmemd)
+- [Gallery](#gallery)
+- [Examples](#examples)
+  - [Splitting your README.md](#splitting-your-readmemd)
   - [GitHub Pages](#github-pages)
-  - [Test Locally](#test-locally)
+  - [Github Actions](#github-actions)
+  - [Testing Locally](#testing-locally)
+- [Options](#options)
+  - [Links to Repository](#links-to-repository)
+  - [Input file](#input-file)
+  - [Output directory](#output-directory)
+  - [Remove HTML Tags](#remove-html-tags)
+  - [Hiding sections from docs](#hiding-sections-from-docs)
+- [Integration](#integration)
+  - [Binaries](#binaries)
+  - [Install from Source](#install-from-source)
+- [Caveats](#caveats)
 - [Contributing](#contributing)
-  - [Developers](#developers)
+- [Developers](#developers)
 
 </details>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
