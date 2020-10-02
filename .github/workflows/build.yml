@@ -1,6 +1,6 @@
 name: Build mdsplit
 
-on: 
+on:
   push:
     paths-ignore:
       - '**.md'
@@ -21,7 +21,7 @@ on:
       - '.clang-format'
       - '.gitignore'
       - 'LICENSE'
-        
+
 jobs:
   Build:
     name: ${{ matrix.config.name }}
@@ -93,3 +93,10 @@ jobs:
         uses: kittaakos/upload-artifact-as-is@v0
         with:
           path: build/mdsplit-?.?.?-*.*
+      - name: Archive Executable
+        uses: actions/upload-artifact@v2
+        with:
+          name: Executable ${{ matrix.config.artifact_name }}
+          path: |
+            build/standalone/mdsplit
+            build/standalone/Release/mdsplit.exe
