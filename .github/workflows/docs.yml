@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Build mdsplit
+      - name: Download and build mdsplit
         run: |
           mkdir build
           cd build
@@ -27,6 +27,6 @@ jobs:
       - name: Publish Docs
         uses: test-room-7/action-update-file@v1
         with:
-          file-path: docs/*
+          file-path: docs
           commit-msg: Update Docs
           github-token: ${{ secrets.GITHUB_TOKEN }}
