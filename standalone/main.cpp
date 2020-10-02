@@ -23,7 +23,7 @@ int main(int argc, char *argv[]) {
         cxxopts::value(output)->default_value("docs"))(
         "r,repository", "Output repository", cxxopts::value(repository));
 
-    short max_split_level{3};
+    short max_split_level{6};
     std::vector<std::string> clear_html_tags{};
     bool include_toc{true};
     bool jekyll_escape{true};
@@ -34,7 +34,7 @@ int main(int argc, char *argv[]) {
     bool trace{true};
     options.add_options("Behaviour")(
         "l,level", "Max level for which we should split the file",
-        cxxopts::value(max_split_level)->default_value("3"))(
+        cxxopts::value(max_split_level)->default_value("6"))(
         "c,clear-html", "List of HTML tags mdsplit should clear",
         cxxopts::value(clear_html_tags)->default_value("details,summary"))(
         "t,toc", "Create a table of contents for the new files",
@@ -49,7 +49,8 @@ int main(int argc, char *argv[]) {
         cxxopts::value(update_links)->default_value("true"))(
         "remove-auto-toc", "Remove automatic table of contents",
         cxxopts::value(remove_autotoc)->default_value("true"))(
-        "trace", "Trace commands", cxxopts::value(trace));
+        "trace", "Trace commands",
+        cxxopts::value(trace)->default_value("true"));
 
     bool show_help{true};
     bool show_version{false};
