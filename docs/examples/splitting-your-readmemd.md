@@ -8,13 +8,13 @@ has_toc: false
 ---
 # Splitting your README.md
 
-Just run 
+After [installing](../installing.md) `mdsplit`, run
 
 ```
 mdsplit -r username/repository
 ```
 
-from your project root directory. 
+from your project root directory to generate your documentation. 
 
 `mdsplit` will split your `README.md` file into smaller files and save the results to the `docs` directory. 
 
