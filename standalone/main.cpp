@@ -32,6 +32,7 @@ int main(int argc, char *argv[]) {
     bool update_links{true};
     bool remove_autotoc{true};
     bool trace{true};
+    bool erase_old_mdsplit_files{true};
     options.add_options("Behaviour")(
         "l,level", "Max level for which we should split the file",
         cxxopts::value(max_split_level)->default_value("6"))(
@@ -39,6 +40,9 @@ int main(int argc, char *argv[]) {
         cxxopts::value(clear_html_tags)->default_value("details,summary"))(
         "t,toc", "Create a table of contents for the new files",
         cxxopts::value(include_toc)->default_value("true"))(
+        "e,erase-old-mdsplit-files",
+        "Erase old md files also generated with mdsplit",
+        cxxopts::value(erase_old_mdsplit_files)->default_value("true"))(
         "j,jekyll-escape", "Escape consecutive \"{{\"s for Jekyll processing",
         cxxopts::value(jekyll_escape)->default_value("true"))(
         "header-reindent", "Reindent headers to match the new files",
@@ -102,5 +106,6 @@ int main(int argc, char *argv[]) {
     m.update_links(update_links);
     m.remove_autotoc(remove_autotoc);
     m.trace(trace);
+    m.erase_old_mdsplit_files(erase_old_mdsplit_files);
     return m.run();
 }
