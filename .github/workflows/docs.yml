@@ -30,8 +30,10 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git commit -m "Update Docs" -a
+        continue-on-error: true
       - name: Push changes
         uses: ad-m/github-push-action@master
+        if: succeeded()
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
