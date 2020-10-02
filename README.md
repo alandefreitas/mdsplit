@@ -446,7 +446,7 @@ If contributing with code, please leave the pedantic mode ON (` -DBUILD_WITH_PED
         <a href="https://github.com/actions-user">
             <img src="https://avatars1.githubusercontent.com/u/65916846?v=4" width="100;" alt="actions-user"/>
             <br />
-            <sub><b>actions-user</b></sub>
+            <sub><b>Actions-user</b></sub>
         </a>
     </td></tr>
 </table>
