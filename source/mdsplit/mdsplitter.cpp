@@ -410,7 +410,6 @@ namespace mdsplit {
              ++section_it) {
             auto &section = *section_it;
             section.lines.emplace_back("");
-            section.lines.emplace_back("");
             for (auto subsection_it = std::next(section_it);
                  subsection_it != sections_.end(); ++subsection_it) {
                 auto &subsection = *subsection_it;
