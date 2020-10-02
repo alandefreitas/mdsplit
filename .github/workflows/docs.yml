@@ -16,9 +16,9 @@ jobs:
       - name: Download MdSplit
         uses: dawidd6/action-download-artifact@v2
         with:
-          - workflow: docs.yml
-          - name: Executable Linux
-          - repo: alandefreitas/mdsplit
+          workflow: docs.yml
+          name: Executable Linux
+          repo: alandefreitas/mdsplit
       - name: Generate Docs
         run: mdsplit -r alandefreitas/mdsplit
       - name: Publish Docs
