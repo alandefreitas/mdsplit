@@ -7,7 +7,7 @@ has_toc: false
 ---
 # Gallery
 
-These are some demonstrative projects that use mdsplit for their documentation:
+These are some projects that use `mdsplit` for their documentation. Use the links below to compare their documentation with the README.md files.
 
 |                 |     Documentation    |    README.md    |
 |-----------------|----------------------|-----------------|
@@ -15,8 +15,6 @@ These are some demonstrative projects that use mdsplit for their documentation:
 | pareto-front    | [URL](https://alandefreitas.github.io/pareto-front/) | [URL](https://github.com/alandefreitas/pareto-front/blob/master/README.md) |
 | BibExplorer    | [URL](https://alandefreitas.github.io/bibexplorer/) | [URL](https://github.com/alandefreitas/bibexplorer/blob/master/README.md) |
 | mdsplit         | [URL](https://alandefreitas.github.io/mdsplit/) | [URL](https://github.com/alandefreitas/mdsplit/blob/master/README.md) |
-
-You can visit these repositories and compare the documentation with the README.md files. 
 
 Please let me know if you want to list your project here.
 
