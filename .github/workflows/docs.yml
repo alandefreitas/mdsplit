@@ -26,6 +26,7 @@ jobs:
           mdsplit -r alandefreitas/mdsplit
       - name: Commit Docs
         run: |
+          git fetch
           git add docs
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
