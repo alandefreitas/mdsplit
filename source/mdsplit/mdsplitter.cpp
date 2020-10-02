@@ -326,6 +326,11 @@ namespace mdsplit {
                         if (!is_external(url)) {
                             bool same_file = url.rfind('#', 0) == 0;
                             if (!same_file) {
+                                bool is_single_dot_directory =
+                                    url.rfind("./", 0) == 0;
+                                if (is_single_dot_directory) {
+                                    url.erase(url.begin(), url.begin() + 2);
+                                }
                                 fs::path relative_url =
                                     relative_path(url, section.filepath);
                                 if (trace_) {
@@ -342,9 +347,6 @@ namespace mdsplit {
                                 replacement_size = relative_url.string().size();
                             } else {
                                 std::string header_slug = url.substr(1);
-                                if (header_slug == "axes-object") {
-                                    std::cout << "Here we go" << std::endl;
-                                }
                                 auto it = std::find_if(
                                     sections_.begin(), sections_.end(),
                                     [&](const mdsection &s) {
