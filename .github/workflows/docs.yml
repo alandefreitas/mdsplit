@@ -20,7 +20,7 @@ jobs:
           name: Executable Linux
           repo: alandefreitas/mdsplit
       - name: Generate Docs
-        run: mdsplit -r alandefreitas/mdsplit
+        run: ./mdsplit -r alandefreitas/mdsplit
       - name: Publish Docs
         uses: test-room-7/action-update-file@v1
         with:
