@@ -61,10 +61,10 @@ Github is full of mid-sized projects that help us solve specific tasks. Authors 
   - [Remove HTML Tags](options/remove-html-tags.md)
   - [Front matter ](options/front-matter-.md)
   - [Hiding sections from docs](options/hiding-sections-from-docs.md)
+  - [Removing old sections](options/removing-old-sections.md)
 - [Installing](installing.md)
   - [Binaries](installing/binaries.md)
   - [Install from Source](installing/install-from-source.md)
-- [Caveats](caveats.md)
 - [Contributing](contributing.md)
 - [Developers](developers.md)
 

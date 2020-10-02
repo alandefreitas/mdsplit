@@ -54,6 +54,7 @@ Usage:
 - [Remove HTML Tags](options/remove-html-tags.md)
 - [Front matter ](options/front-matter-.md)
 - [Hiding sections from docs](options/hiding-sections-from-docs.md)
+- [Removing old sections](options/removing-old-sections.md)
 
 
 <!-- Generated with mdsplit: https://github.com/alandefreitas/mdsplit -->

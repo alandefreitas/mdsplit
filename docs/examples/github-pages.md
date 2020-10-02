@@ -12,11 +12,11 @@ You can use the new `.md` files with GitHub Pages to host your documentation.
 
 Go to your repository settings.
 
-![](https://github.com/alandefreitas/mdsplit/blob/master/)
+![](../images/rep_settings.png)
 
 Turn on GitHub Pages and set `./docs` as your root directory.
 
-![](https://github.com/alandefreitas/mdsplit/blob/master/)
+![](../images/rep_pages.png)
 
 Run `mdsplit` as described in the [previous section](splitting-your-readmemd.md) from your root directory to save the files in `./docs`.
 
