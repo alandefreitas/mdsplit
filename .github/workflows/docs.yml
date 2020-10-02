@@ -1,0 +1,27 @@
+name: Docs Generator
+
+on:
+  push:
+    paths:
+      - 'README.md'
+
+jobs:
+  generateDOC:
+    name: Docs Generator
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Download MdSplit
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          - workflow: workflow_name.yml
+          - name: Executable Linux
+          - repo: alandefreitas/mdsplit
+      - name: Generate Docs
+        run: mdsplit -r alandefreitas/mdsplit
+      - name: Publish Docs
+        uses: test-room-7/action-update-file@v1
+        with:
+          file-path: docs/*
+          commit-msg: Update Docs
+          github-token: ${{ secrets.GITHUB_TOKEN }}
