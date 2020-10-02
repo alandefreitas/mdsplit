@@ -9,10 +9,10 @@ has_toc: false
 
 
 
-- [Splitting your README.md]()
-- [GitHub Pages]()
-- [Github Actions]()
-- [Testing Locally]()
+- [Splitting your README.md](examples/splitting-your-readmemd.md)
+- [GitHub Pages](examples/github-pages.md)
+- [Github Actions](examples/github-actions.md)
+- [Testing Locally](examples/testing-locally.md)
 
 
 <!-- Generated with mdsplit: https://github.com/alandefreitas/mdsplit -->

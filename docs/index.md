@@ -15,7 +15,6 @@ has_toc: false
 
 `mdsplit` is a tool to split a bulky markdown file into smaller files. The main purpose of `mdsplit` is to generate documentation with GitHub Pages from README.md files. It can be integrated with GitHub actions to regenerate the documentation whenever the README.md file is updated.
 
-See a [LIVE DEMO](https://alandefreitas.github.io/mdsplit/) and compare it with this [README.md](https://github.com/alandefreitas/mdsplit/blob/master/README.md) file.
 
 [![Facebook](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Share+on+Facebook&logo=facebook)](https://www.facebook.com/sharer/sharer.php?t=mdsplit:%20split%20a%20bulky%20README.md%20into%20a%20nice%20documentation&u=https://github.com/alandefreitas/mdsplit/)
 [![QZone](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Share+on+QZone&logo=qzone)](http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://github.com/alandefreitas/mdsplit/&title=mdsplit:%20split%20a%20bulky%20README.md%20into%20a%20nice%20documentation&summary=mdsplit:%20split%20a%20bulky%20README.md%20into%20a%20nice%20documentation)
@@ -32,24 +31,24 @@ See a [LIVE DEMO](https://alandefreitas.github.io/mdsplit/) and compare it with 
 
 
 
-- [Gallery]()
-- [Examples]()
-  - [Splitting your README.md]()
-  - [GitHub Pages]()
-  - [Github Actions]()
-  - [Testing Locally]()
-- [Options]()
-  - [Links to Repository]()
-  - [Input file]()
-  - [Output directory]()
-  - [Remove HTML Tags]()
-  - [Hiding sections from docs]()
-- [Integration]()
-  - [Binaries]()
-  - [Install from Source]()
-- [Caveats]()
-- [Contributing]()
-- [Developers]()
+- [Gallery](gallery.md)
+- [Examples](examples.md)
+  - [Splitting your README.md](examples/splitting-your-readmemd.md)
+  - [GitHub Pages](examples/github-pages.md)
+  - [Github Actions](examples/github-actions.md)
+  - [Testing Locally](examples/testing-locally.md)
+- [Options](options.md)
+  - [Links to Repository](options/links-to-repository.md)
+  - [Input file](options/input-file.md)
+  - [Output directory](options/output-directory.md)
+  - [Remove HTML Tags](options/remove-html-tags.md)
+  - [Hiding sections from docs](options/hiding-sections-from-docs.md)
+- [Integration](integration.md)
+  - [Binaries](integration/binaries.md)
+  - [Install from Source](integration/install-from-source.md)
+- [Caveats](caveats.md)
+- [Contributing](contributing.md)
+- [Developers](developers.md)
 
 
 <!-- Generated with mdsplit: https://github.com/alandefreitas/mdsplit -->

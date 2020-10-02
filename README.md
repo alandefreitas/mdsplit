@@ -43,11 +43,16 @@ See the [LIVE DEMO](https://alandefreitas.github.io/mdsplit/) and compare it wit
 
 These are some demonstrative projects that use mdsplit for their documentation:
 
-* [Matplot++](https://alandefreitas.github.io/matplotplusplus/)
-* [pareto-front](https://alandefreitas.github.io/pareto-front/)
-* [mdsplit](https://alandefreitas.github.io/mdsplit/)
+|                 |     Documentation    |    README.md    |
+|-----------------|----------------------|-----------------|
+| Matplot++       | [URL](https://alandefreitas.github.io/matplotplusplus/) | [URL](https://github.com/alandefreitas/matplotplusplus/blob/master/README.md) |
+| pareto-front    | [URL](https://alandefreitas.github.io/pareto-front/) | [URL](https://github.com/alandefreitas/pareto-front/blob/master/README.md) |
+| BibExplorer    | [URL](https://alandefreitas.github.io/bibexplorer/) | [URL](https://github.com/alandefreitas/bibexplorer/blob/master/README.md) |
+| mdsplit         | [URL](https://alandefreitas.github.io/mdsplit/) | [URL](https://github.com/alandefreitas/mdsplit/blob/master/README.md) |
 
-You can visit these repositories and compare the documentation with the README.md files.
+You can visit these repositories and compare the documentation with the README.md files. 
+
+Please let me know if you want to list your project here.
 
 ## Examples
 
@@ -56,10 +61,12 @@ You can visit these repositories and compare the documentation with the README.m
 Just run 
 
 ```
-mdsplit
+mdsplit -r username/repository
 ```
 
-from your project root directory. `mdsplit` will split your `README.md` file into smaller files. The results will go to the documentation directory.
+from your project root directory. 
+
+`mdsplit` will split your `README.md` file into smaller files and save the results to the `docs` directory. 
 
 ### GitHub Pages
 

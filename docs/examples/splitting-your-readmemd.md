@@ -11,10 +11,12 @@ has_toc: false
 Just run 
 
 ```
-mdsplit
+mdsplit -r username/repository
 ```
 
-from your project root directory. `mdsplit` will split your `README.md` file into smaller files. The results will go to the documentation directory.
+from your project root directory. 
+
+`mdsplit` will split your `README.md` file into smaller files and save the results to the `docs` directory. 
 
 
 

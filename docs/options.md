@@ -9,11 +9,11 @@ has_toc: false
 
 
 
-- [Links to Repository]()
-- [Input file]()
-- [Output directory]()
-- [Remove HTML Tags]()
-- [Hiding sections from docs]()
+- [Links to Repository](options/links-to-repository.md)
+- [Input file](options/input-file.md)
+- [Output directory](options/output-directory.md)
+- [Remove HTML Tags](options/remove-html-tags.md)
+- [Hiding sections from docs](options/hiding-sections-from-docs.md)
 
 
 <!-- Generated with mdsplit: https://github.com/alandefreitas/mdsplit -->

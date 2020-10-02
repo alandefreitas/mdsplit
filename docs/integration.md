@@ -9,8 +9,8 @@ has_toc: false
 
 
 
-- [Binaries]()
-- [Install from Source]()
+- [Binaries](integration/binaries.md)
+- [Install from Source](integration/install-from-source.md)
 
 
 <!-- Generated with mdsplit: https://github.com/alandefreitas/mdsplit -->

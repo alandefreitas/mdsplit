@@ -6,7 +6,7 @@ description: "A Tool to Split Bulky Markdown Files"
 search_enabled: true
 
 aux_links:
-  "mdsplit on GitHub":
+  "mdsplit on github":
     - "//github.com/alandefreitas/mdsplit"
 
 aux_links_new_tab: true

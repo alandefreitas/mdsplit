@@ -9,12 +9,12 @@ has_toc: false
 
 If contributing with code, please leave the pedantic mode ON (` -DBUILD_WITH_PEDANTIC_WARNINGS=ON`), use cppcheck, and clang-format.
 
-<details markdown="1">
-    <summary>Example: CLion</summary>
+
+Example: CLion
     
 ![CLion Settings with Pedantic Mode](images/pedantic_clion.png)
     
-</details>
+
 
 
 
