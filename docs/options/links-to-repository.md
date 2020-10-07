@@ -37,5 +37,4 @@ mdsplit -r alandefreitas/matplotplusplus
 
 
 
-
 <!-- Generated with mdsplit: https://github.com/alandefreitas/mdsplit -->

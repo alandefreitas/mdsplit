@@ -17,5 +17,4 @@ And cluttering the root directory with lots of markdown files and directories is
 
 
 
-
 <!-- Generated with mdsplit: https://github.com/alandefreitas/mdsplit -->

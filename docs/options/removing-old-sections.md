@@ -28,5 +28,4 @@ If any of these files contain a comment indicating that `mdsplit` generated the 
 
 
 
-
 <!-- Generated with mdsplit: https://github.com/alandefreitas/mdsplit -->

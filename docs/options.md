@@ -47,7 +47,6 @@ Usage:
 ```
 
 
-
 - [Links to Repository](options/links-to-repository.md)
 - [Input file](options/input-file.md)
 - [Output directory](options/output-directory.md)

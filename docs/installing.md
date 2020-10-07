@@ -8,7 +8,6 @@ has_toc: false
 # Installing
 
 
-
 - [Binaries](installing/binaries.md)
 - [Install from Source](installing/install-from-source.md)
 

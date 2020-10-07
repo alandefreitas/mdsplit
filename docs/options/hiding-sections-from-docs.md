@@ -37,5 +37,4 @@ If you're reading this from [`README.md`](https://github.com/alandefreitas/mdspl
 
 
 
-
 <!-- Generated with mdsplit: https://github.com/alandefreitas/mdsplit -->

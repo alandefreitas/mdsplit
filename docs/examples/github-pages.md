@@ -43,5 +43,4 @@ This template uses the `just-the-docs` theme for your documentation. Unlike the 
 
 
 
-
 <!-- Generated with mdsplit: https://github.com/alandefreitas/mdsplit -->

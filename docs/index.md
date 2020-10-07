@@ -46,7 +46,6 @@ Github is full of mid-sized projects that help us solve specific tasks. Authors 
 <br/>
 
 
-
 - [Gallery](gallery.md)
 - [Examples](examples.md)
   - [Splitting your README.md](examples/splitting-your-readmemd.md)

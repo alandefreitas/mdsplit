@@ -64,5 +64,4 @@ bundle exec jekyll serve
 
 
 
-
 <!-- Generated with mdsplit: https://github.com/alandefreitas/mdsplit -->

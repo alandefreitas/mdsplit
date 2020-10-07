@@ -8,7 +8,6 @@ has_toc: false
 # Examples
 
 
-
 - [Splitting your README.md](examples/splitting-your-readmemd.md)
 - [GitHub Pages](examples/github-pages.md)
 - [Extra pages](examples/extra-pages.md)

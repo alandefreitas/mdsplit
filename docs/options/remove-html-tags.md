@@ -15,5 +15,4 @@ By default, `mdsplit` will remove the tags `details` and `summary` because 1) Je
 
 
 
-
 <!-- Generated with mdsplit: https://github.com/alandefreitas/mdsplit -->

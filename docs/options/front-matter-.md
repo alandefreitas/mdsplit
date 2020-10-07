@@ -17,5 +17,4 @@ Jekyll themes can use these parameters to generate proper navigation bars, order
 
 
 
-
 <!-- Generated with mdsplit: https://github.com/alandefreitas/mdsplit -->
