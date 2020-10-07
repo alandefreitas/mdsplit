@@ -433,5 +433,22 @@ If contributing with code, please leave the pedantic mode ON (` -DBUILD_WITH_PED
 ## Developers
 
 <!-- readme: collaborators,contributors -start --> 
+<table>
+<tr>
+    <td align="center">
+        <a href="https://github.com/alandefreitas">
+            <img src="https://avatars0.githubusercontent.com/u/5369819?v=4" width="100;" alt="alandefreitas"/>
+            <br />
+            <sub><b>Alan De Freitas</b></sub>
+        </a>
+    </td>
+    <td align="center">
+        <a href="https://github.com/actions-user">
+            <img src="https://avatars1.githubusercontent.com/u/65916846?v=4" width="100;" alt="actions-user"/>
+            <br />
+            <sub><b>actions-user</b></sub>
+        </a>
+    </td></tr>
+</table>
 <!-- readme: collaborators,contributors -end -->
 
