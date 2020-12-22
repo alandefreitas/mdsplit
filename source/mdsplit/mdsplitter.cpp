@@ -883,9 +883,10 @@ namespace mdsplit {
             }
         };
 
-        // add sections in all relevant navigation files
+        // Add sections in all relevant navigation files
         fs::path previous_path = output_dir_;
         for (size_t i = 0; i < sections_.size(); ++i) {
+            // Add file to its own navigation pages (if there's content)
             auto &section = sections_[i];
             if (section.has_content()) {
                 fs::path p = section.filepath.parent_path();
@@ -897,28 +898,81 @@ namespace mdsplit {
                     has_children ? "Introduction" : section.header_name;
                 add_content(p, "  - " + sidebar_name + ": " + f.string());
             }
-            bool is_a_new_subdirectory =
+
+            // Add file to the parent navigation pages (if it's first in this
+            // directory)
+            bool is_a_new_directory =
                 section.filepath.parent_path() != previous_path;
-            if (is_a_new_subdirectory) {
-                // put it in the parent path navigation list too
-                fs::path grand_path =
-                    section.filepath.parent_path().parent_path();
-                add_content(
-                    grand_path,
-                    "  - " + section.header_name + ": " +
-                        fs::relative(section.filepath.parent_path(), grand_path)
-                            .string());
+            if (is_a_new_directory) {
+                // check if this is the first file in this dir
+                bool is_first = true;
+                for (size_t j = 0; j < i; ++j) {
+                    if (sections_[j].filepath.parent_path() ==
+                        section.filepath.parent_path()) {
+                        is_first = false;
+                        break;
+                    }
+                }
+
+                // if it's first file in this dir
+                if (is_first) {
+                    // put it in the parent path navigation list too
+                    fs::path grand_path =
+                        section.filepath.parent_path().parent_path();
+                    add_content(grand_path,
+                                "  - " + section.header_name + ": " +
+                                    fs::relative(section.filepath.parent_path(),
+                                                 grand_path)
+                                        .string());
+                }
             }
             previous_path = section.filepath.parent_path();
         }
 
-        // save the .pages
+        // Save the .pages
         for (const auto &[p, content] : navigations) {
             fs::path pages_file = p;
             pages_file /= ".pages";
-            std::ofstream fout(pages_file);
-            for (const auto &line : content) {
-                fout << line << std::endl;
+
+            // Check if file has changed
+            std::ifstream fin(pages_file);
+            bool has_changed = false;
+            std::string current_line;
+            size_t content_idx = 0;
+            while (std::getline(fin, current_line)) {
+                if (content_idx < content.size()) {
+                    if (current_line != content[content_idx]) {
+                        has_changed = true;
+                        break;
+                    }
+                    ++content_idx;
+                } else {
+                    if (!current_line.empty()) {
+                        has_changed = true;
+                        break;
+                    }
+                }
+            }
+            if (content_idx < content.size()) {
+                for (size_t i = content_idx; i < content.size(); ++i) {
+                    if (!content[i].empty()) {
+                        has_changed = true;
+                    }
+                }
+            }
+
+            if (!has_changed) {
+                std::cout << "File " << pages_file << " has not changed "
+                          << std::endl;
+            }
+
+            // Save file if its contents have changed
+            if (has_changed) {
+                std::ofstream fout(pages_file);
+                std::cout << "Saving " << pages_file << std::endl;
+                for (const auto &line : content) {
+                    fout << line << std::endl;
+                }
             }
         }
     }
