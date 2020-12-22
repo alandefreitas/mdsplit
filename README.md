@@ -52,7 +52,6 @@ very [`README.md`](README.md) file.
 <details>
 <summary>Table of Contents</summary>
 
-- [Gallery](#gallery)
 - [Examples](#examples)
   - [Splitting your README.md](#splitting-your-readmemd)
   - [GitHub Pages](#github-pages)
@@ -70,8 +69,9 @@ very [`README.md`](README.md) file.
 - [Installing](#installing)
   - [Binaries](#binaries)
   - [Install from Source](#install-from-source)
+- [Gallery](#gallery)
 - [Contributing](#contributing)
-- [Developers](#developers)
+  - [Contributors](#contributors)
 
 </details>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
