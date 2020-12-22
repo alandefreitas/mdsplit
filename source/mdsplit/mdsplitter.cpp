@@ -4,6 +4,7 @@
 
 #include <algorithm>
 #include <cassert>
+#include <map>
 
 #include "mdsplitter.h"
 
@@ -16,6 +17,11 @@ namespace mdsplit {
             std::cout << "# Find Sections" << std::endl;
         }
         find_sections();
+
+        if (trace_) {
+            std::cout << "# Put parent sections in subdirectories" << std::endl;
+        }
+        move_parents_to_subdirectories();
 
         if (remove_autotoc_) {
             if (trace_) {
@@ -71,6 +77,11 @@ namespace mdsplit {
         }
         save_sections();
 
+        if (trace_) {
+            std::cout << "\n# Generate navigation files" << std::endl;
+        }
+        generate_navigation_files();
+
         list_doc_outsiders();
 
         return 0;
@@ -92,7 +103,7 @@ namespace mdsplit {
 
     void mdsplitter::find_sections() {
         // # some text
-        std::regex header_regex{"(#+) +(.*)"};
+        std::regex header_regex{"(^|\\n)(#+) +(.*)"};
 
         std::regex ignore_begin_regex{R"( *<!-- START mdsplit-ignore --> *)"};
         std::regex ignore_end_regex{R"( *<!-- END mdsplit-ignore --> *)"};
@@ -133,26 +144,39 @@ namespace mdsplit {
                 bool found_header =
                     std::regex_search(current_line, sm, header_regex);
                 if (found_header) {
-                    short level = sm[1].length();
+                    short level = sm[2].length();
                     if (level <= max_split_level_) {
                         // Create new section
                         mdsection new_section;
                         new_section.level = level;
-                        new_section.header_name = sm[2].str();
+                        new_section.header_name = sm[3].str();
+                        while (!new_section.header_name.empty() &&
+                               new_section.header_name.back() == ' ') {
+                            new_section.header_name.pop_back();
+                        }
+
+                        // Find its parent headers
+                        // For each level below this section's (ignoring level
+                        // 1)
                         for (int i = new_section.level - 1; i > 1; --i) {
+                            // Find some section with this lower level
                             auto it = std::find_if(sections_.rbegin(),
                                                    sections_.rend(),
                                                    [&i](const mdsection &s) {
                                                        return s.level == i;
                                                    });
+                            // If we found it
                             if (it != sections_.rend()) {
+                                // Then this is the parent
                                 new_section.parent_headers.insert(
                                     new_section.parent_headers.begin(),
                                     it->header_name);
                             }
                         }
-                        if (sections_.empty()) {
+                        bool first_section = sections_.empty();
+                        if (first_section) {
                             new_section.filepath = output_dir_ / "index.md";
+                            new_section.header_name = "Home";
                         } else {
                             new_section.filepath = output_dir_;
                             for (const auto &parent_section :
@@ -171,7 +195,8 @@ namespace mdsplit {
             }
 
             // Make sure there's at least one default section
-            if (sections_.empty()) {
+            bool found_text_before_any_section = sections_.empty();
+            if (found_text_before_any_section && !current_line.empty()) {
                 mdsection new_section;
                 new_section.level = 0;
                 new_section.header_name = "";
@@ -180,13 +205,15 @@ namespace mdsplit {
             }
 
             // Store line
-            sections_.back().lines.push_back(std::move(current_line));
+            if (!sections_.empty()) {
+                sections_.back().lines.push_back(std::move(current_line));
+            }
         }
     }
 
     bool mdsplitter::is_codeblock(const std::string &str) {
         // ```
-        std::regex codeblock_regex{"```(.*)"};
+        std::regex codeblock_regex{"(\\s*)```(.*)"};
 
         std::smatch sm;
         std::regex_match(str, sm, codeblock_regex);
@@ -194,7 +221,57 @@ namespace mdsplit {
     }
 
     void mdsplitter::save_sections() {
-        for (const auto &section : sections_) {
+        // Try to save each section
+        for (auto &section : sections_) {
+            // Add mdsplit comment to allow later removal
+            if (section.has_content()) {
+                section.lines.emplace_back("");
+                section.lines.emplace_back("");
+                section.lines.emplace_back(
+                    "<!-- Generated with mdsplit: "
+                    "https://github.com/alandefreitas/mdsplit -->");
+            } else {
+                continue;
+            }
+
+            // check if files have the same content
+            // this allows us to run mdsplit without making
+            // the mkdocs server refresh for nothing
+            bool content_is_the_same = true;
+            std::ifstream fin(section.filepath);
+            if (!fin) {
+                content_is_the_same = false;
+            }
+            std::string file_current_line;
+            size_t section_current_line_idx = 0;
+            while (std::getline(fin, file_current_line)) {
+                if (section_current_line_idx < section.lines.size()) {
+                    const std::string &section_current_line =
+                        section.lines[section_current_line_idx];
+                    if (file_current_line != section_current_line) {
+                        content_is_the_same = false;
+                        break;
+                    }
+                    ++section_current_line_idx;
+                } else {
+                    if (!file_current_line.empty()) {
+                        content_is_the_same = false;
+                        break;
+                    }
+                }
+            }
+            const bool this_section_has_extra_information =
+                section_current_line_idx != section.lines.size();
+            if (this_section_has_extra_information) {
+                content_is_the_same = false;
+            }
+            if (content_is_the_same) {
+                std::cout << "File " << section.filepath << " has not changed"
+                          << std::endl;
+                continue;
+            }
+
+            // If content is not the same, write section to the file
             std::ofstream fout(section.filepath);
             if (trace_) {
                 std::cout << "Saving " << section.filepath
@@ -204,11 +281,6 @@ namespace mdsplit {
             for (const auto &line : section.lines) {
                 fout << line << std::endl;
             }
-            fout << std::endl;
-            fout << std::endl;
-            fout << "<!-- Generated with mdsplit: "
-                    "https://github.com/alandefreitas/mdsplit -->"
-                 << std::endl;
         }
     }
     void mdsplitter::remove_auto_toc() {
@@ -514,7 +586,11 @@ namespace mdsplit {
             std::vector<std::string> front_matter;
             front_matter.emplace_back("---");
             front_matter.emplace_back("layout: default");
-            front_matter.emplace_back("title: " + section.header_name);
+            if (has_children) {
+                front_matter.emplace_back("title: Introduction");
+            } else {
+                front_matter.emplace_back("title: " + section.header_name);
+            }
             front_matter.emplace_back("nav_order: " +
                                       std::to_string(level_order.back()));
             if (has_children) {
@@ -694,7 +770,8 @@ namespace mdsplit {
                 auto it = std::find_if(
                     sections_.begin(), sections_.end(),
                     [&](const mdsection &s) { return s.filepath == outsider; });
-                if (it == sections_.end()) {
+                bool section_exists = it != sections_.end();
+                if (!section_exists || !it->has_content()) {
                     if (first) {
                         if (trace_) {
                             std::cout << "\n# The following .md files were not "
@@ -768,8 +845,82 @@ namespace mdsplit {
     bool mdsplitter::erase_old_mdsplit_files() const {
         return erase_old_mdsplit_files_;
     }
+
     void mdsplitter::erase_old_mdsplit_files(bool erase_old_mdsplit_files) {
         erase_old_mdsplit_files_ = erase_old_mdsplit_files;
+    }
+
+    void mdsplitter::move_parents_to_subdirectories() {
+        for (size_t i = 0; i < sections_.size() - 1; ++i) {
+            // ignore level one, which are never put in subdirectories
+            if (sections_[i].level != 1) {
+                bool section_has_a_child =
+                    sections_[i].level < sections_[i + 1].level;
+                if (section_has_a_child) {
+                    fs::path p = sections_[i].filepath;
+                    fs::path stem = p.filename().stem();
+                    p = p.remove_filename();
+                    p /= stem;
+                    p /= "index.md";
+                    sections_[i].filepath = p;
+                }
+            }
+        }
+    }
+
+    void mdsplitter::generate_navigation_files() {
+        // path -> navigation items in the path
+        using navigation_content = std::vector<std::string>;
+        std::map<fs::path, navigation_content> navigations;
+
+        // function to add content to these files
+        auto add_content = [&](const fs::path &p, const std::string &line) {
+            auto it = navigations.find(p);
+            if (it == navigations.end()) {
+                navigations[p] = {"nav:", line};
+            } else {
+                navigations[p].emplace_back(line);
+            }
+        };
+
+        // add sections in all relevant navigation files
+        fs::path previous_path = output_dir_;
+        for (size_t i = 0; i < sections_.size(); ++i) {
+            auto &section = sections_[i];
+            if (section.has_content()) {
+                fs::path p = section.filepath.parent_path();
+                fs::path f = section.filepath.filename();
+                bool has_children = section.level != 1 &&
+                                    i < sections_.size() - 1 &&
+                                    sections_[i + 1].level > section.level;
+                std::string sidebar_name =
+                    has_children ? "Introduction" : section.header_name;
+                add_content(p, "  - " + sidebar_name + ": " + f.string());
+            }
+            bool is_a_new_subdirectory =
+                section.filepath.parent_path() != previous_path;
+            if (is_a_new_subdirectory) {
+                // put it in the parent path navigation list too
+                fs::path grand_path =
+                    section.filepath.parent_path().parent_path();
+                add_content(
+                    grand_path,
+                    "  - " + section.header_name + ": " +
+                        fs::relative(section.filepath.parent_path(), grand_path)
+                            .string());
+            }
+            previous_path = section.filepath.parent_path();
+        }
+
+        // save the .pages
+        for (const auto &[p, content] : navigations) {
+            fs::path pages_file = p;
+            pages_file /= ".pages";
+            std::ofstream fout(pages_file);
+            for (const auto &line : content) {
+                fout << line << std::endl;
+            }
+        }
     }
 
 } // namespace mdsplit
