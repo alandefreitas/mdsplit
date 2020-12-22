@@ -10,12 +10,18 @@
 
 <br/>
 
-Github is full of mid-sized projects that help us solve specific tasks. Authors tend to document these repositories with beautiful README.md files and some auxiliary documents. `mdsplit` is a tool to automatically split and adjust these bulky markdown files into smaller files. The new files automatically produce documentation compatible with GitHub Pages. It can also be integrated with GitHub Actions to regenerate the documentation whenever your `README.md` file is updated.
+Github is full of mid-sized projects that help us solve specific tasks. Authors tend to document these repositories with
+beautiful README.md files and some auxiliary documents.
+
+`mdsplit` is a tool that splits these bulky README.md files into smaller files in a way compatible with GitHub Pages +
+GitHub Actions + MkDocs. GitHub Actions will then regenerate the documentation whenever your `README.md` file is
+updated.
 
 <!-- START mdsplit-ignore -->
 <br/>
 
-See the mdsplit [LIVE DEMO](https://alandefreitas.github.io/mdsplit/) and compare it with this very [`README.md`](README.md) file.
+See the mdsplit [LIVE DEMO](https://alandefreitas.github.io/mdsplit/) and compare it with this
+very [`README.md`](README.md) file.
 <!-- END mdsplit-ignore -->
 
 <br/>
@@ -23,6 +29,7 @@ See the mdsplit [LIVE DEMO](https://alandefreitas.github.io/mdsplit/) and compar
 [![Build Status](https://img.shields.io/github/workflow/status/alandefreitas/mdsplit/Build%20mdsplit?event=push&label=Build&logo=Github-Actions)](https://github.com/alandefreitas/mdsplit/actions?query=workflow%3A%22Build+mdsplit%22+event%3Apush)
 [![Latest Release](https://img.shields.io/github/release/alandefreitas/mdsplit.svg?label=Download)](https://GitHub.com/alandefreitas/mdsplit/releases/)
 [![Documentation](https://img.shields.io/website-up-down-green-red/http/alandefreitas.github.io/mdsplit.svg?label=Documentation)](https://alandefreitas.github.io/mdsplit/)
+[![Discussions](https://img.shields.io/website-up-down-green-red/http/alandefreitas.github.io/mdsplit.svg?label=Discussions)](https://github.com/alandefreitas/mdsplit/discussions)
 
 <br/>
 
@@ -71,19 +78,6 @@ See the mdsplit [LIVE DEMO](https://alandefreitas.github.io/mdsplit/) and compar
 
 <br/>
 
-## Gallery
-
-These are some projects that use `mdsplit` for their documentation. Use the links below to compare their documentation with the README.md files.
-
-|                 |     Documentation    |    README.md    |
-|-----------------|----------------------|-----------------|
-| Matplot++       | [URL](https://alandefreitas.github.io/matplotplusplus/) | [URL](https://github.com/alandefreitas/matplotplusplus/blob/master/README.md) |
-| pareto-front    | [URL](https://alandefreitas.github.io/pareto-front/) | [URL](https://github.com/alandefreitas/pareto-front/blob/master/README.md) |
-| BibExplorer    | [URL](https://alandefreitas.github.io/bibexplorer/) | [URL](https://github.com/alandefreitas/bibexplorer/blob/master/README.md) |
-| mdsplit         | [URL](https://alandefreitas.github.io/mdsplit/) | [URL](https://github.com/alandefreitas/mdsplit/blob/master/README.md) |
-
-Please let me know if you want to list your project here.
-
 ## Examples
 
 ### Splitting your README.md
@@ -94,13 +88,13 @@ After [installing](#installing) `mdsplit`, run
 mdsplit -r username/repository
 ```
 
-from your project root directory to generate your documentation. 
+from your project root directory to generate your documentation.
 
-`mdsplit` will split your `README.md` file into smaller files and save the results to the `docs` directory. 
+`mdsplit` will split your `README.md` file into smaller files and save the results to the `docs` directory.
 
 ### GitHub Pages
 
-You can use the new `.md` files with GitHub Pages to host your documentation. 
+You can use the new `.md` files with GitHub Pages to host your documentation.
 
 Go to your repository settings.
 
@@ -156,29 +150,46 @@ You can integrate `mdsplit` with GitHub actions to regenerate the documentation 
 Download `mdsplit` to the virtual machine:
 
 ```yaml
-- name: Download mdsplit
-  run: curl <mdsplit_url> -o md_split
+  - name: Download mdsplit
+    uses: carlosperate/download-file-action@v1.0.3
+    id: download-mdsplit
+    with:
+      file-url: 'https://github.com/alandefreitas/mdsplit/releases/download/v0.0.1/Executable.Linux.zip'
+      file-name: 'mdsplit.zip'
+      location: '.'
 ``` 
 
-You can get the executable link from the [Release Page](https://GitHub.com/alandefreitas/mdsplit/releases/). You can also change this step to uncompress files or build `mdsplit` from source if you want. 
+You can get the executable link from the [Release Page](https://GitHub.com/alandefreitas/mdsplit/releases/).
+
+You should also include a step to uncompress this file:
+
+```yaml
+  - name: Unzip mdsplit
+    run: |
+      unzip mdsplit.zip
+      rm -f mdsplit.zip
+      sudo chmod +x mdsplit
+      ls
+```
 
 Run `mdsplit` on the virtual machine:
 
 ```yaml
-- name: Generate Docs
-  run: mdsplit -r my_username/my_repository
+  - name: Generate Docs
+    run: ./mdsplit -r my_username/my_repository_name
 ``` 
 
 Commit the new doc files:
 
 ```yaml
-- name: Commit Docs
-  run: |
-    git add docs
-    git config --local user.email "action@github.com"
-    git config --local user.name "GitHub Action"
-    git commit -m "Update Docs" -a
-  continue-on-error: true
+  - name: Commit Docs
+    run: |
+      git fetch
+      git add docs
+      git config --local user.email "action@github.com"
+      git config --local user.name "GitHub Action"
+      git commit -m "Update Docs" -a
+    continue-on-error: true
 ```
 
 We allow this step to continue on error because there will be nothing to commit sometimes.
@@ -193,28 +204,32 @@ Push the new documentation to your repository:
     github_token: ${{ secrets.GITHUB_TOKEN }}
 ```
 
-See an example in [`.github/workflows/docs.yml`](.github/workflows/docs.yml).
+See an example in [`.github/workflows/docs.yml`](.github/workflows/docs.yml)
+or [`https://github.com/alandefreitas/bibexplorer/blob/master/.github/workflows/docs.yml`](https://github.com/alandefreitas/bibexplorer/blob/master/.github/workflows/docs.yml)
+.
 
 ### Testing Locally
 
-You might want to test your documentation locally before pushing it to your repository. 
+You might want to test your documentation locally before pushing it to your repository.
 
-To test your GitHub Page locally, you first need to install [Jekyll](https://jekyllrb.com/docs/installation/) and [Bundler](https://bundler.io) locally.
+To test your GitHub Page locally, you first need to install [Jekyll](https://jekyllrb.com/docs/installation/)
+and [Bundler](https://bundler.io) locally.
 
-Then adjust your Jekyll configuration file in [`docs/_config.yml`](docs/_config.yml) to use a local repository for the theme. 
+Then adjust your Jekyll configuration file in [`docs/_config.yml`](docs/_config.yml) to use a local repository for the
+theme.
 
 ```yaml
 #remote_theme: pmarsceill/just-the-docs
 theme: "just-the-docs"
 ```
 
-Create a [`docs/Gemfile`](docs/Gemfile) with 
+Create a [`docs/Gemfile`](docs/Gemfile) with
 
 ```bash
 bundle init
 ```
 
-And include the following commands to install `github-pages` and `just-the-docs`:   
+And include the following commands to install `github-pages` and `just-the-docs`:
 
 ```
 gem "github-pages", group: :jekyll_plugins
@@ -223,13 +238,13 @@ gem "just-the-docs"
 
 See an example in [`docs/Gemfile`](docs/Gemfile).
 
-Install these gems with 
+Install these gems with
 
 ```bash
 bundle install
 ```
 
-for the first time or 
+for the first time or
 
 ```bash
 bundle update
@@ -237,14 +252,15 @@ bundle update
 
 after that.
 
-Adjust your Jekyll configuration file in [`docs/_config.yml`](docs/_config.yml) to use the local repository for the theme. 
+Adjust your Jekyll configuration file in [`docs/_config.yml`](docs/_config.yml) to use the local repository for the
+theme.
 
 ```yaml
 #remote_theme: pmarsceill/just-the-docs
 theme: "just-the-docs"
 ```
 
-Run the jekyll server with: 
+Run the jekyll server with:
 
 ```bash
 bundle exec jekyll serve
@@ -295,9 +311,11 @@ Usage:
 
 The `--repository` (or `-r`) option should be used to provide your repository name to `mdsplit`. This option enables `mdsplit` to create links to files inside the repository.
 
-Although all internal repository links work in GitHub, not all internal links are adjusted to work with GitHub Pages. Documentation files can only contain links to other markdown files in the documentation directory.
+Although all internal repository links work in GitHub, not all internal links are adjusted to work with GitHub Pages.
+Documentation files can only contain links to other markdown files in the documentation directory.
 
-If your documentation needs to refer to a file in the repository and this file is not under `.docs/`, links need to use the absolute repository link as a parent path. 
+If your documentation needs to refer to a file in the repository and this file is not under `.docs/`, links need to use
+the absolute repository link as a parent path.
 
 For instance, conside a file `source/main.cpp` outside `docs`. Then
 
@@ -321,9 +339,11 @@ mdsplit -r alandefreitas/matplotplusplus
 
 ### Input file
 
-The `--input` (or `-i`) option defines the file `mdsplit` should split to generate the documentation. You don't usually want to change the default from `README.md` because that's the file GitHub uses for all repositories.
+The `--input` (or `-i`) option defines the file `mdsplit` should split to generate the documentation. You don't usually
+want to change the default from `README.md` because that's the file GitHub uses for all repositories.
 
-However, it might be useful to use another file as input if you want to have your documentation in a bulky markdown file kept separate from your main `README.md`. 
+However, it might be useful to use another file as input if you want to have your documentation in a bulky markdown file
+kept separate from your main `README.md`.
 
 ### Output directory
 
@@ -331,21 +351,28 @@ The `--output` (or `-o`) option defines the directory where `mdsplit` should sto
 
 ![](docs/images/pages_dirs.png)
 
-And cluttering the root directory with lots of markdown files and directories is not a good idea unless you are going to create another branch for your documentation.  
+And cluttering the root directory with lots of markdown files and directories is not a good idea unless you are going to
+create another branch for your documentation.
 
 ### Remove HTML Tags
 
-The `--clear-html` (or `-d`) option defines the HTML tags `mdsplit` should remove from your `README.md`. This is useful to `README.md` files that use tags such as `details` and `summary` to emulate what the documentation would look like inside the `README.md` file.  
+The `--clear-html` (or `-d`) option defines the HTML tags `mdsplit` should remove from your `README.md`. This is useful
+to `README.md` files that use tags such as `details` and `summary` to emulate what the documentation would look like
+inside the `README.md` file.
 
-By default, `mdsplit` will remove the tags `details` and `summary` because 1) Jekyll themes often have difficulty with these tags and 2) people often use these tags in markdown files to emulate what the documentation would look like.  
+By default, `mdsplit` will remove the tags `details` and `summary` because 1) Jekyll themes often have difficulty with
+these tags and 2) people often use these tags in markdown files to emulate what the documentation would look like.
 
-### Front matter 
+### Front matter
 
-The `--front-matter` (or `-f`) option tells `mdsplit` to generate a front matter for each new file. The default option is `true` so you need `--front-matter=false` to turn it off.
+The `--front-matter` (or `-f`) option tells `mdsplit` to generate a front matter for each new file. The default option
+is `true` so you need `--front-matter=false` to turn it off.
 
-This front matter includes parameters such as `title`, `nav_order`, `parent`, `has_children`, and `nav_exclude` for each markdown file. 
+This front matter includes parameters such as `title`, `nav_order`, `parent`, `has_children`, and `nav_exclude` for each
+markdown file.
 
-Jekyll themes can use these parameters to generate proper navigation bars, order pages, and define page titles. The `just-the-docs` theme already uses all of these parameters.
+Jekyll themes can use these parameters to generate proper navigation bars, order pages, and define page titles.
+The `just-the-docs` theme already uses all of these parameters.
 
 ### Hiding sections from docs
 
@@ -372,7 +399,8 @@ or
 
 If you ignore the complete section, `mdsplit` will create no file for that section.
 
-If you're reading this from [`README.md`](README.md) you will see this section has a subsection that will be completely ignored in the documentation. 
+If you're reading this from [`README.md`](README.md) you will see this section has a subsection that will be completely
+ignored in the documentation.
 
 <!-- START mdsplit-ignore -->
 #### Ignored section
@@ -382,13 +410,17 @@ This section will be completely ignored by the documentation. Have a look at the
 
 ### Removing old sections
 
-In principle, `mdsplit` will not remove any files in your documentation directory. It will only create or update files. This is meant to allow auxiliary files that you also want to be part of the documentation.
+In principle, `mdsplit` will not remove any files in your documentation directory. It will only create or update files.
+This is meant to allow auxiliary files that you also want to be part of the documentation.
 
-However, that also means that if you change your section names in `README.md`, `mdsplit` will create a new file for this section and the old file would be left untouched. Your GitHub pages would then show you the new and old sections. 
+However, that also means that if you change your section names in `README.md`, `mdsplit` will create a new file for this
+section and the old file would be left untouched. Your GitHub pages would then show you the new and old sections.
 
-If this is not an auxiliary file you want in your documentation, you need to remove these files. 
+If this is not an auxiliary file you want in your documentation, you need to remove these files.
 
-To make it easier to identify external auxiliary files, after saving the new markdown files, `mdsplit` will look for any `.md` files in the `docs` directory. If there are any files not generated by `mdsplit`, it will emit a message like the following:
+To make it easier to identify external auxiliary files, after saving the new markdown files, `mdsplit` will look for
+any `.md` files in the `docs` directory. If there are any files not generated by `mdsplit`, it will emit a message like
+the following:
 
 ```
 # The following .md files were not generated by mdsplit
@@ -418,19 +450,33 @@ cpack
 
 On windows, replace `-O2` with `/O2`. On Linux, you might need `sudo` for this last command.
 
+## Gallery
+
+These are some projects that use `mdsplit` for their documentation. Use the links below to compare their documentation
+with the README.md files.
+
+|                 |     Documentation    |    README.md    |
+|-----------------|----------------------|-----------------|
+| Matplot++       | [URL](https://alandefreitas.github.io/matplotplusplus/) | [URL](https://github.com/alandefreitas/matplotplusplus/blob/master/README.md) |
+| Pareto    | [URL](https://alandefreitas.github.io/pareto/) | [URL](https://github.com/alandefreitas/pareto/blob/master/README.md) |
+| BibExplorer    | [URL](https://alandefreitas.github.io/bibexplorer/) | [URL](https://github.com/alandefreitas/bibexplorer/blob/master/README.md) |
+| mdsplit         | [URL](https://alandefreitas.github.io/mdsplit/) | [URL](https://github.com/alandefreitas/mdsplit/blob/master/README.md) |
+
+!!! note Please let me know if you want to list your project here.
 
 ## Contributing
 
-If contributing with code, please leave the pedantic mode ON (` -DBUILD_WITH_PEDANTIC_WARNINGS=ON`), use [cppcheck](http://cppcheck.sourceforge.net), and [clang-format](https://clang.llvm.org/docs/ClangFormat.html).
+If contributing with code, please leave the pedantic mode ON (` -DBUILD_WITH_PEDANTIC_WARNINGS=ON`),
+use [cppcheck](http://cppcheck.sourceforge.net), and [clang-format](https://clang.llvm.org/docs/ClangFormat.html).
 
 <details>
     <summary>Example: CLion</summary>
-    
+
 ![CLion Settings with Pedantic Mode](./docs/images/pedantic_clion.png)
-    
+
 </details>
 
-## Developers
+### Contributors
 
 <!-- readme: collaborators,contributors -start --> 
 <table>
@@ -440,13 +486,6 @@ If contributing with code, please leave the pedantic mode ON (` -DBUILD_WITH_PED
             <img src="https://avatars0.githubusercontent.com/u/5369819?v=4" width="100;" alt="alandefreitas"/>
             <br />
             <sub><b>Alan De Freitas</b></sub>
-        </a>
-    </td>
-    <td align="center">
-        <a href="https://github.com/actions-user">
-            <img src="https://avatars1.githubusercontent.com/u/65916846?v=4" width="100;" alt="actions-user"/>
-            <br />
-            <sub><b>actions-user</b></sub>
         </a>
     </td></tr>
 </table>
