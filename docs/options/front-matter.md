@@ -1,10 +1,5 @@
 ---
-layout: default
-title: Front matter
-nav_order: 5
-has_children: false
-parent: Options
-has_toc: false
+layout: default title: Front matter nav_order: 6 has_children: false parent: Options has_toc: false
 ---
 # Front matter
 
@@ -15,7 +10,6 @@ This front matter includes parameters such as `title`, `nav_order`, `parent`, `h
 markdown file.
 
 Jekyll themes can use these parameters to generate proper navigation bars, order pages, and define page titles.
-The `just-the-docs` theme already uses all of these parameters.
 
 
 

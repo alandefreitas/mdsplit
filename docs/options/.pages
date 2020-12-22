@@ -1,9 +1,9 @@
 nav:
   - Introduction: index.md
   - Links to Repository: links-to-repository.md
+  - Hiding sections: hiding-sections.md
   - Input file: input-file.md
   - Output directory: output-directory.md
   - Remove HTML Tags: remove-html-tags.md
   - Front matter: front-matter.md
-  - Hiding sections from docs: hiding-sections-from-docs.md
   - Removing old sections: removing-old-sections.md

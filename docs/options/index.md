@@ -1,13 +1,9 @@
 ---
-layout: default
-title: Introduction
-nav_order: 3
-has_children: true
-has_toc: false
+layout: default title: Introduction nav_order: 4 has_children: true has_toc: false
 ---
 # Options
 
-Run `mdsplit` with the `--help` (or `-h`) option to see all command-line options:
+Run `mdsplit` with the `--help` (or `-h`) option to see all the command-line options:
 
 ```bash
 mdsplit -h

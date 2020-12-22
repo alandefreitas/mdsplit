@@ -16,15 +16,15 @@ Documentation files can only contain links to other markdown files in the docume
 If your documentation needs to refer to a file in the repository and this file is not under `.docs/`, links need to use
 the absolute repository link as a parent path.
 
-For instance, conside a file `source/main.cpp` outside `docs`. Then
+For instance, consider a file `source/main.cpp` outside `docs`. Then
 
-```markdown
+```md
 [My Internal Link](source/main.cpp)
 ```
 
 should become
 
-```markdown
+```md
 [My Internal Link](https://github.com/my_username/my_repository/blob/master/source/main.cpp)
 ```
 
@@ -32,7 +32,7 @@ so that the link works correctly on GitHub pages.
 
 You can use the `--repository` (or `-r`) option to provide the repository `mdsplit` should consider to generate these links:
 
-```
+```bash
 mdsplit -r alandefreitas/matplotplusplus
 ```
 

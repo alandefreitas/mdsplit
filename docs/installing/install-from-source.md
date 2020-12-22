@@ -1,23 +1,39 @@
 ---
-layout: default
-title: Install from Source
-nav_order: 2
-has_children: false
-parent: Installing
-has_toc: false
+layout: default title: Install from Source nav_order: 2 has_children: false parent: Installing has_toc: false
 ---
+
 # Install from Source
 
-```bash
-mkdir build
-cmake -version
-cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS="-O2"
-cmake --build . -j 2 --config Release
-cmake --install .
-cpack
-```
+To install from the source files:
 
-On windows, replace `-O2` with `/O2`. On Linux, you might need `sudo` for this last command.
+=== "Windows"
+
+    ```bash
+    mkdir build
+    cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS="/O2"
+    cmake --build . -j 2 --config Release
+    cmake --install .
+    ```
+
+=== "Linux"
+
+    ```bash
+    mkdir build
+    cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS="-O2"
+    cmake --build . -j 2 --config Release
+    sudo cmake --install .
+    ```
+
+=== "Mac OS"
+
+    ```bash
+    mkdir build
+    cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS="-O2"
+    cmake --build . -j 2 --config Release
+    cmake --install .
+    ```
+
+The dependencies are CMake 3.17 and C++17.
 
 
 

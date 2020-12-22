@@ -1,10 +1,5 @@
 ---
-layout: default
-title: Output directory
-nav_order: 3
-has_children: false
-parent: Options
-has_toc: false
+layout: default title: Output directory nav_order: 4 has_children: false parent: Options has_toc: false
 ---
 # Output directory
 

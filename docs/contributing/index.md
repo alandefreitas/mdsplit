@@ -1,9 +1,5 @@
 ---
-layout: default
-title: Introduction
-nav_order: 6
-has_children: true
-has_toc: false
+layout: default title: Introduction nav_order: 7 has_children: true has_toc: false
 ---
 # Contributing
 
