@@ -487,6 +487,13 @@ use [cppcheck](http://cppcheck.sourceforge.net), and [clang-format](https://clan
             <br />
             <sub><b>Alan De Freitas</b></sub>
         </a>
+    </td>
+    <td align="center">
+        <a href="https://github.com/actions-user">
+            <img src="https://avatars1.githubusercontent.com/u/65916846?v=4" width="100;" alt="actions-user"/>
+            <br />
+            <sub><b>actions-user</b></sub>
+        </a>
     </td></tr>
 </table>
 <!-- readme: collaborators,contributors -end -->
