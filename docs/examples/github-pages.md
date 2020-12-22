@@ -8,7 +8,7 @@ has_toc: false
 ---
 # GitHub Pages
 
-You can use the new `.md` files with GitHub Pages to host your documentation. 
+You can use the new `.md` files with GitHub Pages to host your documentation.
 
 Go to your repository settings.
 
@@ -39,7 +39,6 @@ aux_links_new_tab: true
 See an example in [`docs/_config.yml`](../_config.yml).
 
 This template uses the `just-the-docs` theme for your documentation. Unlike the default themes for GitHub, `just-the-docs` includes a search bar, and navigation links. `mdsplit` will generate the proper YAML front matter to organize the navigation links.
-
 
 
 

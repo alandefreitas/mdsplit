@@ -1,6 +1,6 @@
 ---
 layout: default
-title: mdsplit
+title: Home
 nav_order: 1
 has_children: false
 has_toc: false
@@ -17,7 +17,12 @@ has_toc: false
 
 <br/>
 
-Github is full of mid-sized projects that help us solve specific tasks. Authors tend to document these repositories with beautiful README.md files and some auxiliary documents. `mdsplit` is a tool to automatically split and adjust these bulky markdown files into smaller files. The new files automatically produce documentation compatible with GitHub Pages. It can also be integrated with GitHub Actions to regenerate the documentation whenever your `README.md` file is updated.
+Github is full of mid-sized projects that help us solve specific tasks. Authors tend to document these repositories with
+beautiful README.md files and some auxiliary documents.
+
+`mdsplit` is a tool that splits these bulky README.md files into smaller files in a way compatible with GitHub Pages +
+GitHub Actions + MkDocs. GitHub Actions will then regenerate the documentation whenever your `README.md` file is
+updated.
 
 
 <br/>
@@ -25,6 +30,7 @@ Github is full of mid-sized projects that help us solve specific tasks. Authors 
 [![Build Status](https://img.shields.io/github/workflow/status/alandefreitas/mdsplit/Build%20mdsplit?event=push&label=Build&logo=Github-Actions)](https://github.com/alandefreitas/mdsplit/actions?query=workflow%3A%22Build+mdsplit%22+event%3Apush)
 [![Latest Release](https://img.shields.io/github/release/alandefreitas/mdsplit.svg?label=Download)](https://GitHub.com/alandefreitas/mdsplit/releases/)
 [![Documentation](https://img.shields.io/website-up-down-green-red/http/alandefreitas.github.io/mdsplit.svg?label=Documentation)](https://alandefreitas.github.io/mdsplit/)
+[![Discussions](https://img.shields.io/website-up-down-green-red/http/alandefreitas.github.io/mdsplit.svg?label=Discussions)](https://github.com/alandefreitas/mdsplit/discussions)
 
 <br/>
 
@@ -45,27 +51,6 @@ Github is full of mid-sized projects that help us solve specific tasks. Authors 
 
 <br/>
 
-
-- [Gallery](gallery.md)
-- [Examples](examples.md)
-  - [Splitting your README.md](examples/splitting-your-readmemd.md)
-  - [GitHub Pages](examples/github-pages.md)
-  - [Extra pages](examples/extra-pages.md)
-  - [Github Actions](examples/github-actions.md)
-  - [Testing Locally](examples/testing-locally.md)
-- [Options](options.md)
-  - [Links to Repository](options/links-to-repository.md)
-  - [Input file](options/input-file.md)
-  - [Output directory](options/output-directory.md)
-  - [Remove HTML Tags](options/remove-html-tags.md)
-  - [Front matter ](options/front-matter-.md)
-  - [Hiding sections from docs](options/hiding-sections-from-docs.md)
-  - [Removing old sections](options/removing-old-sections.md)
-- [Installing](installing.md)
-  - [Binaries](installing/binaries.md)
-  - [Install from Source](installing/install-from-source.md)
-- [Contributing](contributing.md)
-- [Developers](developers.md)
 
 
 <!-- Generated with mdsplit: https://github.com/alandefreitas/mdsplit -->

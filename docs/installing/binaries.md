@@ -12,5 +12,4 @@ Get the latest release from the [Release Page](https://GitHub.com/alandefreitas/
 
 
 
-
 <!-- Generated with mdsplit: https://github.com/alandefreitas/mdsplit -->

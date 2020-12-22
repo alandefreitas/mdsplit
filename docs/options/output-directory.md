@@ -12,8 +12,8 @@ The `--output` (or `-o`) option defines the directory where `mdsplit` should sto
 
 ![](../images/pages_dirs.png)
 
-And cluttering the root directory with lots of markdown files and directories is not a good idea unless you are going to create another branch for your documentation.  
-
+And cluttering the root directory with lots of markdown files and directories is not a good idea unless you are going to
+create another branch for your documentation.
 
 
 

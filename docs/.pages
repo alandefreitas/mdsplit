@@ -1,0 +1,7 @@
+nav:
+  - Home: index.md
+  - Examples: examples
+  - Options: options
+  - Installing: installing
+  - Gallery: gallery.md
+  - Contributing: contributing

@@ -31,8 +31,8 @@ or
 
 If you ignore the complete section, `mdsplit` will create no file for that section.
 
-If you're reading this from [`README.md`](https://github.com/alandefreitas/mdsplit/blob/master/README.md) you will see this section has a subsection that will be completely ignored in the documentation. 
-
+If you're reading this from [`README.md`](https://github.com/alandefreitas/mdsplit/blob/master/README.md) you will see this section has a subsection that will be completely
+ignored in the documentation.
 
 
 

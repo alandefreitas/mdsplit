@@ -1,7 +1,7 @@
 ---
 layout: default
-title: Options
-nav_order: 4
+title: Introduction
+nav_order: 3
 has_children: true
 has_toc: false
 ---
@@ -46,14 +46,6 @@ Usage:
   -v, --version  Print version
 ```
 
-
-- [Links to Repository](options/links-to-repository.md)
-- [Input file](options/input-file.md)
-- [Output directory](options/output-directory.md)
-- [Remove HTML Tags](options/remove-html-tags.md)
-- [Front matter ](options/front-matter-.md)
-- [Hiding sections from docs](options/hiding-sections-from-docs.md)
-- [Removing old sections](options/removing-old-sections.md)
 
 
 <!-- Generated with mdsplit: https://github.com/alandefreitas/mdsplit -->
