@@ -1,5 +1,9 @@
 ---
-layout: default title: Gallery nav_order: 6 has_children: false has_toc: false
+layout: default
+title: Gallery
+nav_order: 6
+has_children: false
+has_toc: false
 ---
 # Gallery
 

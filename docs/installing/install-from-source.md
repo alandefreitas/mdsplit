@@ -1,7 +1,11 @@
 ---
-layout: default title: Install from Source nav_order: 2 has_children: false parent: Installing has_toc: false
+layout: default
+title: Install from Source
+nav_order: 2
+has_children: false
+parent: Installing
+has_toc: false
 ---
-
 # Install from Source
 
 To install from the source files:

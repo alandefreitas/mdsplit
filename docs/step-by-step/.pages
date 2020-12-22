@@ -1,0 +1,4 @@
+nav:
+  - Splitting Locally: splitting-locally.md
+  - Testing Locally: testing-locally.md
+  - Github Actions: github-actions.md

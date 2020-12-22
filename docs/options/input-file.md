@@ -1,5 +1,10 @@
 ---
-layout: default title: Input file nav_order: 3 has_children: false parent: Options has_toc: false
+layout: default
+title: Input file
+nav_order: 3
+has_children: false
+parent: Options
+has_toc: false
 ---
 # Input file
 

@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Contributors
-nav_order: 1
+nav_order: 2
 has_children: false
 parent: Contributing
 has_toc: false
@@ -22,7 +22,7 @@ has_toc: false
         <a href="https://github.com/actions-user">
             <img src="https://avatars1.githubusercontent.com/u/65916846?v=4" width="100;" alt="actions-user"/>
             <br />
-            <sub><b>actions-user</b></sub>
+            <sub><b>Actions-user</b></sub>
         </a>
     </td></tr>
 </table>

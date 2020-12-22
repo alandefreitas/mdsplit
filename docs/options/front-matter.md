@@ -1,5 +1,10 @@
 ---
-layout: default title: Front matter nav_order: 6 has_children: false parent: Options has_toc: false
+layout: default
+title: Front matter
+nav_order: 6
+has_children: false
+parent: Options
+has_toc: false
 ---
 # Front matter
 

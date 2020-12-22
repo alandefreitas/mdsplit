@@ -30,7 +30,8 @@ should become
 
 so that the link works correctly on GitHub pages.
 
-You can use the `--repository` (or `-r`) option to provide the repository `mdsplit` should consider to generate these links:
+You can use the `--repository` (or `-r`) option to provide the repository `mdsplit` should consider to generate these
+links:
 
 ```bash
 mdsplit -r alandefreitas/matplotplusplus
