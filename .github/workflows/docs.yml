@@ -18,9 +18,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           MAX_HEADER_LEVEL: 3
           FOLDING: true
-      # Build mdsplit and use it
-      # External projects would just use curl to get the binary
-      - name: Download and build mdsplit
+      # Use this step to use the latest version of mdsplit
+      # Comment this step if you want the latest release
+      - name: Download and build mdsplit from source
         run: |
           mkdir build
           cd build
@@ -28,6 +28,20 @@ jobs:
           cmake --build . -j 2 --config Release
           sudo cmake --install .
           cd ..
+      # Uncomment these steps to use the latest release of mdsplit
+      #      - name: Download mdsplit
+      #        uses: carlosperate/download-file-action@v1.0.3
+      #        id: download-mdsplit
+      #        with:
+      #          file-url: 'https://github.com/alandefreitas/mdsplit/releases/download/v0.1.0/Executable.Linux.zip'
+      #          file-name: 'mdsplit.zip'
+      #          location: '.'
+      #      - name: Unzip mdsplit
+      #        run: |
+      #          unzip mdsplit.zip
+      #          rm -f mdsplit.zip
+      #          sudo chmod +x mdsplit
+      #          ls
       # Run mdsplit to generate docs
       - name: Generate Docs
         run: |
@@ -57,5 +71,6 @@ jobs:
       # https://github.com/lukasgeiter/mkdocs-awesome-pages-plugin
       - name: Install Navigation Plugin
         run: pip install mkdocs-awesome-pages-plugin
-      - name: Deply mkdocs
+      # Deploy the mkdocs to the gh-pages branch
+      - name: Deploy mkdocs
         run: mkdocs gh-deploy --force
