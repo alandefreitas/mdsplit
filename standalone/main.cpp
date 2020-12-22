@@ -25,7 +25,7 @@ int main(int argc, char *argv[]) {
 
     short max_split_level{6};
     std::vector<std::string> clear_html_tags{};
-    bool include_toc{true};
+    bool include_toc{false};
     bool jekyll_escape{true};
     bool indent_headers{true};
     bool add_front_matter{true};
@@ -39,7 +39,7 @@ int main(int argc, char *argv[]) {
         "c,clear-html", "List of HTML tags mdsplit should clear",
         cxxopts::value(clear_html_tags)->default_value("details,summary"))(
         "t,toc", "Create a table of contents for the new files",
-        cxxopts::value(include_toc)->default_value("true"))(
+        cxxopts::value(include_toc)->default_value("false"))(
         "e,erase-old-mdsplit-files",
         "Erase old md files also generated with mdsplit",
         cxxopts::value(erase_old_mdsplit_files)->default_value("true"))(
