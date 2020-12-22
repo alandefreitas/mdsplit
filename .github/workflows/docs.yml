@@ -12,13 +12,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      # use this same workflow to update README.md with the table of contents
+      # Use this action workflow to update your README.md with the table of contents
       - uses: technote-space/toc-generator@v2
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           MAX_HEADER_LEVEL: 3
           FOLDING: true
-      # build mdsplit and use it, but external projects would just use curl to get the binary
+      # Build mdsplit and use it
+      # External projects would just use curl to get the binary
       - name: Download and build mdsplit
         run: |
           mkdir build
@@ -27,22 +28,34 @@ jobs:
           cmake --build . -j 2 --config Release
           sudo cmake --install .
           cd ..
-      # run mdsplit to generate docs
+      # Run mdsplit to generate docs
       - name: Generate Docs
         run: |
           mdsplit -r alandefreitas/mdsplit
-      # fetch to make sure nothing happened in the meanwhile and commit
+      # Fetch to make sure nothing happened in the meanwhile and commit
       - name: Commit Docs
         run: |
           git fetch
           git add docs
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
+          git config --local user.email "alandefreitas@github.com"
+          git config --local user.name "Alan Freitas"
           git commit -m "Update Docs" -a
         continue-on-error: true
-      # push docs back to repository
+      # Push docs back to repository
       - name: Push changes
         uses: ad-m/github-push-action@master
         if: ${{ success() }}
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+      # Set up Python
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+      - name: Install mkdocs
+        run: pip install mkdocs-material
+      # https://github.com/lukasgeiter/mkdocs-awesome-pages-plugin
+      - name: Install Navigation Plugin
+        run: pip install mkdocs-awesome-pages-plugin
+      - name: Deply mkdocs
+        run: mkdocs gh-deploy --force
