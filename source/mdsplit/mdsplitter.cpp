@@ -371,9 +371,11 @@ namespace mdsplit {
         // [some text](URL) -> std::regex{R"([^!]*\[(.*)\]\((.*)\))"};
         // ![some text](URL) -> std::regex{R"(!\[(.*)\]\((.*)\))"};
         std::regex url_or_img_regex{R"(\[([^\[\]]*)\]\(([^\)]*)\))"};
+
         // [![example_area_1](docs/examples/line_plot/area/area_1.svg)](examples/line_plot/area/area_1.cpp)
         std::regex second_order_url_or_img_regex{
             R"(\[(!?)\[([^\[\]]*)\]\(([^\)]*)\)\]\(([^\)]*)\))"};
+
         std::vector<std::pair<std::regex, size_t>> url_regexes = {
             {url_or_img_regex, 2}, {second_order_url_or_img_regex, 4}};
 
@@ -387,17 +389,17 @@ namespace mdsplit {
                     if (in_codeblock) {
                         continue;
                     }
-                    std::smatch match;
+                    std::smatch matches;
                     auto line_begin = line.cbegin();
                     auto line_end = line.cend();
                     size_t replacement_size = 0;
-                    while (std::regex_search(line_begin, line_end, match,
+                    while (std::regex_search(line_begin, line_end, matches,
                                              url_regex)) {
                         size_t line_begin_pos = line_begin - line.cbegin();
-                        std::string url = match[url_idx];
+                        std::string url = matches[url_idx];
                         if (!is_external(url)) {
-                            bool same_file = url.rfind('#', 0) == 0;
-                            if (!same_file) {
+                            bool is_anchor = url.rfind('#', 0) == 0;
+                            if (!is_anchor) {
                                 bool is_single_dot_directory =
                                     url.rfind("./", 0) == 0;
                                 if (is_single_dot_directory) {
@@ -413,11 +415,12 @@ namespace mdsplit {
                                 }
                                 size_t pos =
                                     std::distance(line.cbegin(), line_begin) +
-                                    match.position(url_idx);
-                                line.replace(pos, match[url_idx].length(),
+                                    matches.position(url_idx);
+                                line.replace(pos, matches[url_idx].length(),
                                              relative_url.string());
                                 replacement_size = relative_url.string().size();
                             } else {
+                                // look for section
                                 std::string header_slug = url.substr(1);
                                 auto it = std::find_if(
                                     sections_.begin(), sections_.end(),
@@ -425,6 +428,17 @@ namespace mdsplit {
                                         return slugify(s.header_name) ==
                                                header_slug;
                                     });
+
+                                // if it's a empty section, point to next
+                                // section this is important for empty
+                                // categories for which mkdocs creates no links
+                                if (it != sections_.end()) {
+                                    if (!it->has_content()) {
+                                        ++it;
+                                    }
+                                }
+
+                                // if link to valid section
                                 if (it != sections_.end()) {
                                     fs::path absolute_destination =
                                         fs::current_path() / it->filepath;
@@ -437,12 +451,14 @@ namespace mdsplit {
                                     }
                                     size_t pos = std::distance(line.cbegin(),
                                                                line_begin) +
-                                                 match.position(url_idx);
-                                    line.replace(pos, match[url_idx].length(),
+                                                 matches.position(url_idx);
+                                    line.replace(pos, matches[url_idx].length(),
                                                  relative_url.string());
                                     replacement_size =
                                         relative_url.string().size();
                                 } else {
+                                    // not link to a valid section
+                                    // we hope we didn't get here
                                     if (trace_) {
                                         std::cout
                                             << "Cannot find file for a header "
@@ -460,10 +476,10 @@ namespace mdsplit {
                             replacement_size = url.size();
                         }
                         if (replacement_size == 0) {
-                            replacement_size = match[url_idx].length();
+                            replacement_size = matches[url_idx].length();
                         }
                         size_t new_begin_pos = line_begin_pos +
-                                               match.position(url_idx) +
+                                               matches.position(url_idx) +
                                                replacement_size;
                         if (new_begin_pos < line.size()) {
                             line_begin = line.cbegin() + new_begin_pos;
@@ -711,16 +727,19 @@ namespace mdsplit {
                                        const fs::path &base) {
         fs::path base_dir = fs::is_directory(base) ? base : base.parent_path();
         bool is_in_docs_dir = is_subdirectory(path, output_dir_);
-        if (is_in_docs_dir) {
+        bool is_docs_dir = path == this->output_dir_;
+        if (is_in_docs_dir && !is_docs_dir) {
             fs::path r = fs::relative(path, base_dir);
             std::string ext = r.extension().string();
             // GitHub does not convert ".md#anchor" links automatically
+            /*
             bool is_anchor_inside_docs = ext.rfind(".md#", 0) == 0;
             if (is_anchor_inside_docs) {
                 ext.replace(0, 4, ".html#");
                 r = r.parent_path() / r.stem();
                 r += ext;
             }
+             */
             return r;
         } else {
             bool is_in_project_dir = is_subdirectory(path, fs::current_path());
